@@ -1,7 +1,5 @@
-// Initialize EmailJS
-emailjs.init("NEhltHkKsFoRI6gWB"); // Replace with your EmailJS Public Key
-
-const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Replace with your Razorpay test key
+// Razorpay key
+const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Replace with your Razorpay key
 
 let selectedProduct = "";
 let selectedAmount = 0;
