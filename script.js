@@ -1,5 +1,8 @@
+// Initialize EmailJS
+emailjs.init("service_2l3l97q"); // <-- Replace with your User ID
+
 // Razorpay test key
-const keyId = "rzp_test_S9x5QAAxXFGWvK"; 
+const keyId = "rzp_test_S9QAAxXFGWvK"; 
 
 // Store selected product and amount
 let selectedProduct = "";
@@ -44,6 +47,8 @@ function payNow(amount, productName, customerName, customerNumber) {
     name: "AVR Shop",
     description: productName,
     handler: function(response) {
+      console.log("Payment ID:", response.razorpay_payment_id);
+
       // Send email via EmailJS
       emailjs.send("service_2l3l97q", "template_zwe1s48", {
         name: customerName,
