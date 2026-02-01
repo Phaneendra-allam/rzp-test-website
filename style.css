@@ -1,38 +1,23 @@
-
-
-/* Heading */
 /* Reset */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Body */
-body { 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f5f5;
+/* Page */
+body {
+  background-color: #f4f6f8;
+  padding: 20px;
 }
 
-/* Header */
-header {
-  width: 100%;
-  background: #1f1f1f;   /* Thick dark color */
-  padding: 25px 0;       /* Thickness */
+/* Heading */
+h1 {
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  margin-bottom: 30px;
+  color: #333;
 }
-
-/* Shop Title */
-.shop-name {
-  color: #ffffff;
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: 6px;
-}
-
-
-
 
 /* Product Grid */
 body > .product {
@@ -160,6 +145,3 @@ body {
   background-color: #dc3545;
   color: #fff;
 }
-
-
-
