@@ -1,5 +1,7 @@
-const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Razorpay test key
+// Razorpay test key
+const keyId = "rzp_test_S9QAAxXFGWvK"; 
 
+// Store selected product and amount
 let selectedProduct = "";
 let selectedAmount = 0;
 
@@ -7,37 +9,41 @@ let selectedAmount = 0;
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
-  document.getElementById("customerForm").style.display = "block";
+  const form = document.getElementById("customerForm");
+  form.style.display = "flex";  // Show popup
 }
 
 // Close the popup
 function closeCustomerForm() {
-  document.getElementById("customerForm").style.display = "none";
+  const form = document.getElementById("customerForm");
+  form.style.display = "none";  // Hide popup
+  document.getElementById("customerName").value = "";
+  document.getElementById("customerNumber").value = "";
 }
 
 // Pay button click inside popup
 document.getElementById("payButton").addEventListener("click", () => {
-  const customerNumber = document.getElementById("customerNumber").value.trim();
   const customerName = document.getElementById("customerName").value.trim();
+  const customerNumber = document.getElementById("customerNumber").value.trim();
 
-  if (!customerNumber || !customerName) {
+  if (!customerName || !customerNumber) {
     alert("Please enter both Name and Phone Number!");
     return;
   }
 
-  closeCustomerForm();
+  closeCustomerForm();  // Hide popup
   payNow(selectedAmount, selectedProduct, customerName, customerNumber);
 });
 
 // Razorpay + EmailJS payment & email
 function payNow(amount, productName, customerName, customerNumber) {
-  var options = {
+  const options = {
     key: keyId,
-    amount: amount * 100,
+    amount: amount * 100,  // Convert to paise
     currency: "INR",
     name: "AVR Shop",
-    description: "Purchase Product",
-    handler: function (response) {
+    description: productName,
+    handler: function(response) {
       // Send email via EmailJS
       emailjs.send("service_2l3l97q", "template_zwe1s48", {
         name: customerName,
@@ -46,14 +52,19 @@ function payNow(amount, productName, customerName, customerNumber) {
         customer_number: customerNumber,
         payment_id: response.razorpay_payment_id
       })
-      .then(function() {
+      .then(() => {
         alert("Payment Successful & Email Sent!");
-      }, function(error) {
+      })
+      .catch((error) => {
         alert("Payment Successful, but Email Failed: " + error.text);
+        console.error("EmailJS Error:", error);
       });
     },
-    theme: { color: "#ff6f61" }
+    theme: {
+      color: "#ff6f61"
+    }
   };
-  var rzp = new Razorpay(options);
+
+  const rzp = new Razorpay(options);
   rzp.open();
 }
