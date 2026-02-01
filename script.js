@@ -42,3 +42,4 @@ function payNow(amount, productName, phoneId) {
     var rzp = new Razorpay(options);
     rzp.open();
 }
+
