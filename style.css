@@ -14,10 +14,19 @@ body {
 
 /* Heading */
 h1 {
+  width: 100%;
   text-align: center;
+  background: linear-gradient(135deg, #ff512f, #dd2476);
+  color: #fff;
+  padding: 20px 0;
   margin-bottom: 30px;
-  color: #333;
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+
 
 /* Product Grid */
 body > .product {
@@ -145,3 +154,4 @@ body {
   background-color: #dc3545;
   color: #fff;
 }
+
