@@ -4,84 +4,92 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  background: #eef2f7;
   margin: 0;
   padding: 20px;
 }
 
+/* TITLE */
 h1 {
   text-align: center;
-  margin-bottom: 40px;
   color: #222;
+  margin-bottom: 30px;
 }
 
-/* GRID LAYOUT – FIXES ALIGNMENT */
+/* GRID ALIGNMENT */
 body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
 }
 
-/* Keep title full width */
+/* Keep heading full width */
 h1 {
   grid-column: 1 / -1;
 }
 
 /* PRODUCT CARD */
 .product {
-  background: #fff;
-  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff, #f9fafc);
+  border-radius: 14px;
   padding: 15px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 420px;              /* SAME HEIGHT */
   display: flex;
   flex-direction: column;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* HOVER */
+/* HOVER EFFECT */
 .product:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 30px rgba(255,111,97,0.3);
+  box-shadow: 0 14px 30px rgba(0,123,255,0.25);
 }
 
-/* IMAGE FIX */
+/* IMAGE FIX (MAIN ALIGNMENT FIX) */
 .product img {
   width: 100%;
-  height: 180px;
+  height: 180px;              /* SAME IMAGE HEIGHT */
   object-fit: cover;
   border-radius: 10px;
+  background: #f1f1f1;
 }
 
-/* TEXT */
+/* PRODUCT NAME */
 .product h2 {
-  margin: 12px 0 5px;
+  margin: 12px 0 6px;
   font-size: 18px;
   color: #111;
+  text-align: center;
 }
 
+/* PRICE */
 .product p {
-  margin: 6px 0 12px;
+  margin: 6px 0;
+  text-align: center;
+  font-size: 16px;
   color: #555;
 }
 
-/* BUTTON */
+/* BUTTON (ALWAYS BOTTOM) */
 .product button {
   margin-top: auto;
-  padding: 10px;
+  padding: 11px;
   border: none;
-  border-radius: 6px;
-  background: #ff6f61;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff6f61, #ff9671);
   color: white;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .product button:hover {
-  background: #e85a4f;
+  background: linear-gradient(135deg, #e85a4f, #ff6f61);
+  transform: scale(1.04);
 }
 
-/* POPUP */
+/* POPUP BACKGROUND */
 #customerForm {
   display: none;
   position: fixed;
@@ -91,6 +99,7 @@ h1 {
   align-items: center;
 }
 
+/* POPUP BOX */
 .popup-content {
   background: #fff;
   padding: 25px;
