@@ -1,31 +1,36 @@
+import fetch from "node-fetch";
+
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
+  if (req.method === "POST") {
+    const { name, product, amount, customer_number, payment_id } = req.body;
 
-  try {
-    const body = req.body;
-    const payment = body.payload.payment.entity;
+    try {
+      const emailResponse = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          service_id: "service_2l3l97q",
+          template_id: "template_zwe1s48",
+          user_id: "NEhltHkKsFoRI6gWB",
+          template_params: {
+            name,
+            product,
+            amount,
+            customer_number,
+            payment_id
+          }
+        })
+      });
 
-    const name = payment.notes.customer_name || "No Name";
-    const number = payment.notes.customer_number || "No Number";
-    const product = payment.notes.product || "Unknown Product";
-    const amount = payment.amount / 100;
-    const payment_id = payment.id;
+      if (!emailResponse.ok) throw new Error("EmailJS API failed");
 
-    // Send email via EmailJS
-    await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        service_id: "service_2l3l97q",
-        template_id: "template_zwe1s48",
-        user_id: "6kzXl7gIg1dHjWpEt", // Replace with your EmailJS user ID
-        template_params: { name, customer_number: number, product, amount, payment_id },
-      }),
-    });
-
-    res.status(200).json({ message: "Email sent successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+      res.status(200).json({ message: "Email sent successfully" });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  } else {
+    res.status(405).json({ error: "Method Not Allowed" });
   }
 }
