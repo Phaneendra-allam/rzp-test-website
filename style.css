@@ -1,125 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #f4f6f8;
-  text-align: center;
-  padding: 20px;
   margin: 0;
+  padding: 20px;
 }
 
 h1 {
+  text-align: center;
   margin-bottom: 40px;
   color: #222;
 }
 
-/* PRODUCTS GRID */
+/* GRID LAYOUT – FIXES ALIGNMENT */
+body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* Keep title full width */
+h1 {
+  grid-column: 1 / -1;
+}
+
+/* PRODUCT CARD */
 .product {
-  display: inline-block;
-  background: #ffffff;
-  width: 280px;
-  margin: 15px;
-  padding: 15px;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 15px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  vertical-align: top;
+  display: flex;
+  flex-direction: column;
 }
 
-/* HIGHLIGHT EFFECT */
+/* HOVER */
 .product:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(255,111,97,0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(255,111,97,0.3);
 }
 
-/* PRODUCT IMAGE */
+/* IMAGE FIX */
 .product img {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 10px;
-  margin-bottom: 12px;
 }
 
-/* PRODUCT TITLE */
+/* TEXT */
 .product h2 {
-  margin: 10px 0 5px;
+  margin: 12px 0 5px;
+  font-size: 18px;
   color: #111;
 }
 
-/* PRICE */
 .product p {
-  margin: 6px 0;
-  font-size: 16px;
-  color: #444;
+  margin: 6px 0 12px;
+  color: #555;
 }
 
-/* BUY BUTTON */
+/* BUTTON */
 .product button {
-  margin-top: 10px;
-  padding: 10px 18px;
-  font-size: 15px;
+  margin-top: auto;
+  padding: 10px;
   border: none;
   border-radius: 6px;
-  background: linear-gradient(135deg, #ff6f61, #ff9472);
+  background: #ff6f61;
   color: white;
+  font-size: 15px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease;
 }
 
-/* BUTTON HOVER */
 .product button:hover {
-  background: linear-gradient(135deg, #e85a4f, #ff6f61);
-  transform: scale(1.05);
+  background: #e85a4f;
 }
 
-/* POPUP BACKGROUND */
+/* POPUP */
 #customerForm {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
-  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* POPUP CONTENT */
 .popup-content {
   background: #fff;
   padding: 25px;
   border-radius: 10px;
-  min-width: 300px;
+  width: 300px;
 }
 
-/* INPUTS */
 .popup-content input {
-  width: 90%;
+  width: 100%;
   padding: 10px;
-  margin: 12px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  margin: 10px 0;
 }
 
-/* POPUP BUTTONS */
-.popup-buttons button {
-  padding: 10px 20px;
-  margin: 8px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.popup-buttons {
+  text-align: center;
 }
 
-#payButton {
-  background: #28a745;
-  color: white;
-}
-
-#payButton:hover {
-  background: #218838;
-}
-
-/* MOBILE FRIENDLY */
+/* MOBILE */
 @media (max-width: 600px) {
-  .product {
-    width: 90%;
+  body {
+    grid-template-columns: 1fr;
   }
 }
