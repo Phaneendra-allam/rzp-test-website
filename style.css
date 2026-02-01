@@ -1,54 +1,66 @@
-/* Reset */
+/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Page */
+/* ===== BODY ===== */
 body {
-  background-color: #f4f6f8;
-  padding: 20px;
+  background-color: #f5f5f5;
 }
 
-/* Heading */
-h1 {
+/* ===== HEADER ===== */
+header {
+  width: 100%;
+  background: #1f1f1f;
+  padding: 25px 0;
   text-align: center;
-  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.shop-name {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 6px;
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 2rem;
   color: #333;
 }
 
-/* Product Grid */
-body > .product {
-  display: inline-block;
+/* ===== PRODUCTS GRID ===== */
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* Container effect using body */
-body {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-/* Product Card */
+/* ===== PRODUCT CARD ===== */
 .product {
-  background: #fff;
-  width: 260px;
+  background: #ffffff;
   border-radius: 10px;
   padding: 15px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
-/* Product Image */
+/* ===== PRODUCT IMAGE ===== */
 .product img {
   width: 100%;
   height: 180px;
@@ -57,36 +69,36 @@ body {
   margin-bottom: 10px;
 }
 
-/* Product Text */
+/* ===== PRODUCT TEXT ===== */
 .product h2 {
-  font-size: 18px;
-  margin-bottom: 5px;
+  font-size: 1.2rem;
+  margin: 10px 0 5px;
   color: #222;
 }
 
 .product p {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 1rem;
   color: #555;
+  margin-bottom: 12px;
 }
 
-/* Button */
+/* ===== BUTTON ===== */
 .product button {
-  background-color: #007bff;
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
   color: #fff;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 15px;
-  width: 100%;
 }
 
 .product button:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
 
-/* Popup Background */
+/* ===== POPUP OVERLAY ===== */
 #customerForm {
   position: fixed;
   top: 0;
@@ -100,12 +112,12 @@ body {
   z-index: 1000;
 }
 
-/* Popup Content */
+/* ===== POPUP CONTENT ===== */
 .popup-content {
   background: #fff;
   padding: 25px;
-  border-radius: 10px;
   width: 320px;
+  border-radius: 10px;
   text-align: center;
 }
 
@@ -113,7 +125,7 @@ body {
   margin-bottom: 15px;
 }
 
-/* Inputs */
+/* ===== INPUTS ===== */
 .popup-content input {
   width: 100%;
   padding: 10px;
@@ -122,7 +134,7 @@ body {
   border: 1px solid #ccc;
 }
 
-/* Popup Buttons */
+/* ===== POPUP BUTTONS ===== */
 .popup-buttons {
   display: flex;
   gap: 10px;
@@ -137,11 +149,11 @@ body {
 }
 
 #payButton {
-  background-color: #28a745;
+  background: #28a745;
   color: #fff;
 }
 
 .popup-buttons button:last-child {
-  background-color: #dc3545;
+  background: #dc3545;
   color: #fff;
 }
