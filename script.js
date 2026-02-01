@@ -1,5 +1,5 @@
-// Razorpay key (replace with your live key for real orders)
-const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Replace with rzp_live_XXXXXXX for production
+// Razorpay test key (only for testing)
+const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Test payments only
 
 // Store selected product and amount
 let selectedProduct = "";
@@ -9,6 +9,7 @@ let selectedAmount = 0;
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
+
   const form = document.getElementById("customerForm");
   form.style.display = "flex";  // Show popup
 }
@@ -75,4 +76,3 @@ function payNow(amount, productName, customerName, customerNumber) {
   const rzp = new Razorpay(options);
   rzp.open();
 }
-
