@@ -1,80 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>AVR Shop</title> 
-  <link rel="stylesheet" href="style.css"> 
-<body> 
-<h1>AVR Shop</h1>  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVR Shop</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Razorpay -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 </head>
+
 <body>
-  
- <h1>Our Products</h1>
 
-<div class="product">
-  <img src="https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140" alt="Earphones">
-  <h2>Earphones</h2>
-  <p>Price: ₹100</p>
-  <button onclick="openCustomerForm(100, 'Earphones')">Buy Now</button>
-</div>
+  <!-- Header -->
+  <header>
+    <h1 class="shop-name">AVR</h1>
+  </header>
 
-<div class="product">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNJtwIVpK54TZqJYYnspNfzXxKseEerzz3mA&s" alt="Earphones">
-  <h2>Wireless Buds</h2>
-  <p>Price: ₹200</p>
-  <button onclick="openCustomerForm(200, 'Wireless Buds')">Buy Now</button>
-</div>
+  <!-- Page Title -->
+  <h1 class="section-title">Our Products</h1>
 
-<div class="product">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdjxA4-jlECytxXWi100sXAUDAl8RW6aoVpA&s" alt="Earphones">
-  <h2>Smartphone</h2>
-  <p>Price: ₹500</p>
-  <button onclick="openCustomerForm(500, 'Smartphone')">Buy Now</button>
-</div>
+  <!-- Products Container -->
+  <div class="products-container">
 
-<div class="product">
-  <img src="https://m.media-amazon.com/images/I/71utBmCdAYL._AC_UF1000,1000_QL80_.jpg" alt="Earphones">
-  <h2>AC Cooler</h2>
-  <p>Price: ₹1000</p>
-  <button onclick="openCustomerForm(1000, 'AC Cooler')">Buy Now</button>
-</div>
+    <div class="product">
+      <img src="https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140">
+      <h2>Earphones</h2>
+      <p>Price: ₹100</p>
+      <button onclick="openCustomerForm(100, 'Earphones')">Buy Now</button>
+    </div>
 
-<!-- New products added -->
-<div class="product">
-  <img src="https://m.media-amazon.com/images/I/71XA0QCW5lL._AC_UF1000,1000_QL80_.jpg" alt="Earphones">
-  <h2>Smartwatch</h2>
-  <p>Price: ₹800</p>
-  <button onclick="openCustomerForm(800, 'Smartwatch')">Buy Now</button>
-</div>
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNJtwIVpK54TZqJYYnspNfzXxKseEerzz3mA&s">
+      <h2>Wireless Buds</h2>
+      <p>Price: ₹200</p>
+      <button onclick="openCustomerForm(200, 'Wireless Buds')">Buy Now</button>
+    </div>
 
-<div class="product">
-  <img src="https://europe.yamaha.com/en/files/speaker-top-bnr-1200x480_tcm113-2295062.jpg?impolicy=resize&imwid=770&imhei=308" alt="Earphones">
-  <h2>Bluetooth Speaker</h2>
-  <p>Price: ₹600</p>
-  <button onclick="openCustomerForm(600, 'Bluetooth Speaker')">Buy Now</button>
-</div>
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdjxA4-jlECytxXWi100sXAUDAl8RW6aoVpA&s">
+      <h2>Smartphone</h2>
+      <p>Price: ₹500</p>
+      <button onclick="openCustomerForm(500, 'Smartphone')">Buy Now</button>
+    </div>
 
-<div class="product">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-t9Ix5P-jFp6ksUffJ8lRS8HxcgbwHvopw&s" alt="Earphones">
-  <h2>Laptop</h2>
-  <p>Price: ₹30000</p>
-  <button onclick="openCustomerForm(30000, 'Laptop')">Buy Now</button>
-</div>
+    <div class="product">
+      <img src="https://m.media-amazon.com/images/I/71utBmCdAYL._AC_UF1000,1000_QL80_.jpg">
+      <h2>AC Cooler</h2>
+      <p>Price: ₹1000</p>
+      <button onclick="openCustomerForm(1000, 'AC Cooler')">Buy Now</button>
+    </div>
 
-<div class="product">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdgTv3o0vrUu5yV5-hLEpKSlwIHJltQzNP8A&s" alt="Earphones">
-  <h2>Gaming Console</h2>
-  <p>Price: ₹25000</p>
-  <button onclick="openCustomerForm(25000, 'Gaming Console')">Buy Now</button>
-</div>
-  <!-- Customer Info Popup -->
+    <div class="product">
+      <img src="https://m.media-amazon.com/images/I/71XA0QCW5lL._AC_UF1000,1000_QL80_.jpg">
+      <h2>Smartwatch</h2>
+      <p>Price: ₹800</p>
+      <button onclick="openCustomerForm(800, 'Smartwatch')">Buy Now</button>
+    </div>
+
+    <div class="product">
+      <img src="https://europe.yamaha.com/en/files/speaker-top-bnr-1200x480_tcm113-2295062.jpg">
+      <h2>Bluetooth Speaker</h2>
+      <p>Price: ₹600</p>
+      <button onclick="openCustomerForm(600, 'Bluetooth Speaker')">Buy Now</button>
+    </div>
+
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-t9Ix5P-jFp6ksUffJ8lRS8HxcgbwHvopw&s">
+      <h2>Laptop</h2>
+      <p>Price: ₹30000</p>
+      <button onclick="openCustomerForm(30000, 'Laptop')">Buy Now</button>
+    </div>
+
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdgTv3o0vrUu5yV5-hLEpKSlwIHJltQzNP8A&s">
+      <h2>Gaming Console</h2>
+      <p>Price: ₹25000</p>
+      <button onclick="openCustomerForm(25000, 'Gaming Console')">Buy Now</button>
+    </div>
+
+  </div>
+
+  <!-- Popup -->
   <div id="customerForm">
     <div class="popup-content">
       <h3>Enter your details</h3>
-      <input type="text" id="customerName" placeholder="Your Name" />
-      <input type="text" id="customerNumber" placeholder="Phone Number" />
+      <input type="text" placeholder="Your Name">
+      <input type="text" placeholder="Phone Number">
       <div class="popup-buttons">
         <button id="payButton">Pay Now</button>
         <button onclick="closeCustomerForm()">Cancel</button>
@@ -82,9 +97,6 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
