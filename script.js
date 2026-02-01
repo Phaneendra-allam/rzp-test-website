@@ -3,7 +3,7 @@ const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Razorpay test key
 let selectedProduct = "";
 let selectedAmount = 0;
 
-// Open the customer number popup
+// Open the customer info popup
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
@@ -18,16 +18,19 @@ function closeCustomerForm() {
 // Pay button click inside popup
 document.getElementById("payButton").addEventListener("click", () => {
   const customerNumber = document.getElementById("customerNumber").value.trim();
-  if (!customerNumber) {
-    alert("7661965757!");
+  const customerName = document.getElementById("customerName").value.trim();
+
+  if (!customerNumber || !customerName) {
+    alert("Please enter both Name and Phone Number!");
     return;
   }
+
   closeCustomerForm();
-  payNow(selectedAmount, selectedProduct, customerNumber);
+  payNow(selectedAmount, selectedProduct, customerName, customerNumber);
 });
 
 // Razorpay + EmailJS payment & email
-function payNow(amount, productName, customerNumber) {
+function payNow(amount, productName, customerName, customerNumber) {
   var options = {
     key: keyId,
     amount: amount * 100,
@@ -37,6 +40,7 @@ function payNow(amount, productName, customerNumber) {
     handler: function (response) {
       // Send email via EmailJS
       emailjs.send("service_2l3l97q", "template_zwe1s48", {
+        name: customerName,
         product: productName,
         amount: amount,
         customer_number: customerNumber,
