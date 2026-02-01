@@ -5,70 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AVR Shop</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Razorpay Checkout -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+    <script type="text/javascript">
+        emailjs.init("service_2l3l97q");  /* Replace with your EmailJS user ID */
+    </script>
 </head>
 <body>
+    <header>
+        <h1 class="shop-name">AVR</h1>
+    </header>
 
-<header>
-    <h1 class="shop-name">AVR</h1>
-</header>
+    <section class="products">
+        <h2>Our Products</h2>
+        <div class="product-grid">
+            <!-- Earphones -->
+            <div class="product-card">
+                <img src="https://i0.wp.com/www.icher.in/wp-content/uploads/2024/09/411-1.jpg?fit=%2C&ssl=1" alt="Earphones">
+                <h3>Earphones</h3>
+                <p>High quality sound.</p>
+                <p>Price: ₹100</p>
+                <button onclick="payNow(100, 'Earphones')">Buy Now</button>
+            </div>
 
-<section class="products">
-    <h2>Our Products</h2>
-    <div class="product-grid">
+            <!-- Wireless Buds -->
+            <div class="product-card">
+                <img src="https://img.tatacliq.com/images/i16//437Wx649H/MP000000021644619_437Wx649H_202403221148441.jpeg" alt="Wireless Buds">
+                <h3>Wireless Buds</h3>
+                <p>Compact and stylish.</p>
+                <p>Price: ₹200</p>
+                <button onclick="payNow(200, 'Wireless Buds')">Buy Now</button>
+            </div>
 
-        <!-- Earphones -->
-        <div class="product-card">
-            <img src="https://i0.wp.com/www.icher.in/wp-content/uploads/2024/09/411-1.jpg?fit=%2C&ssl=1">
-            <h3>Earphones</h3>
-            <p>High quality sound.</p>
-            <p>Price: ₹100</p>
+            <!-- Smartphone -->
+            <div class="product-card">
+                <img src="https://media.wired.com/photos/68cb83e86a7338e553645554/4:3/w_5156,h_3867,c_limit/iPhone%2017%20Sage%20SOURCE%20Julian%20Chokkattu.jpg" alt="Smartphone">
+                <h3>Smartphone</h3>
+                <p>Latest technology.</p>
+                <p>Price: ₹500</p>
+                <button onclick="payNow(500, 'Smartphone')">Buy Now</button>
+            </div>
 
-            <input type="tel" id="phone-earphones" placeholder="Enter phone number">
-           <button type="button" onclick="sendOrder(...)">Buy Now</button>
-
+            <!-- AC Cooler -->
+            <div class="product-card">
+                <img src="https://smuf.in/wp-content/uploads/2025/04/Mini-Portable-3-in-1-Cooling-USB-AC-Cooler-For-Room.jpg" alt="AC Cooler">
+                <h3>AC Cooler</h3>
+                <p>Keep your room cool.</p>
+                <p>Price: ₹1000</p>
+                <button onclick="payNow(1000, 'AC Cooler')">Buy Now</button>
+            </div>
         </div>
+    </section>
 
-        <!-- Buds -->
-        <div class="product-card">
-            <img src="https://img.tatacliq.com/images/i16//437Wx649H/MP000000021644619_437Wx649H_202403221148441.jpeg">
-            <h3>Wireless Buds</h3>
-            <p>Compact and stylish.</p>
-            <p>Price: ₹200</p>
+    <footer>
+        <p>&copy; 2026 AVR Shop</p>
+    </footer>
 
-            <input type="tel" id="phone-buds" placeholder="Enter phone number">
-            <button onclick="sendOrder('Wireless Buds', 200, 'phone-buds')">Buy Now</button>
-        </div>
-
-        <!-- Phone -->
-        <div class="product-card">
-            <img src="https://media.wired.com/photos/68cb83e86a7338e553645554/4:3/w_5156,h_3867,c_limit/iPhone%2017%20Sage%20SOURCE%20Julian%20Chokkattu.jpg">
-            <h3>Smartphone</h3>
-            <p>Latest technology.</p>
-            <p>Price: ₹500</p>
-
-            <input type="tel" id="phone-phone" placeholder="Enter phone number">
-            <button onclick="sendOrder('Smartphone', 500, 'phone-phone')">Buy Now</button>
-        </div>
-
-        <!-- AC Cooler -->
-        <div class="product-card">
-            <img src="https://smuf.in/wp-content/uploads/2025/04/Mini-Portable-3-in-1-Cooling-USB-AC-Cooler-For-Room.jpg">
-            <h3>AC Cooler</h3>
-            <p>Keep your room cool.</p>
-            <p>Price: ₹1000</p>
-
-            <input type="tel" id="phone-cooler" placeholder="Enter phone number">
-            <button onclick="sendOrder('AC Cooler', 1000, 'phone-cooler')">Buy Now</button>
-        </div>
-
-    </div>
-</section>
-
-<footer>
-    <p>&copy; 2026 AVR Shop</p>
-</footer>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
