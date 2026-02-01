@@ -1,5 +1,5 @@
-// Razorpay test key
-const keyId = "rzp_test_S9QAAxXFGWvK"; 
+// Razorpay key (replace with your live key for real orders)
+const keyId = "rzp_test_S9QAAxXFGWvK"; // Replace with rzp_live_XXXXXXX for production
 
 // Store selected product and amount
 let selectedProduct = "";
@@ -44,6 +44,13 @@ function payNow(amount, productName, customerName, customerNumber) {
     name: "AVR Shop",
     description: productName,
     handler: function(response) {
+      // Log all details for debugging
+      console.log("Payment ID:", response.razorpay_payment_id);
+      console.log("Customer Name:", customerName);
+      console.log("Customer Number:", customerNumber);
+      console.log("Product:", productName);
+      console.log("Amount:", amount);
+
       // Send email via EmailJS
       emailjs.send("service_2l3l97q", "template_zwe1s48", {
         name: customerName,
