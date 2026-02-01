@@ -1,5 +1,5 @@
 // Razorpay key (replace with your live key for real orders)
-const keyId = "rzp_test_S9QAAxXFGWvK"; // Replace with rzp_live_XXXXXXX for production
+const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Replace with rzp_live_XXXXXXX for production
 
 // Store selected product and amount
 let selectedProduct = "";
@@ -75,3 +75,4 @@ function payNow(amount, productName, customerName, customerNumber) {
   const rzp = new Razorpay(options);
   rzp.open();
 }
+
