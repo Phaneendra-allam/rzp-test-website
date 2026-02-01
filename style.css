@@ -1,41 +1,36 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
 
-/* Page */
-body {
-  background-color: #f4f6f8;
-  padding: 20px;
-}
 
 /* Heading */
+/* Reset */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* Body */
 body { 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f5f5;
-  margin: 0;
-  padding: 0;
 }
 
+/* Header */
 header {
-  background: #1f1f1f;
-  color: #fff;
+  width: 100%;
+  background: #1f1f1f;   /* Thick dark color */
+  padding: 25px 0;       /* Thickness */
   text-align: center;
-  padding: 20px 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
-header .shop-name {
+/* Shop Title */
+.shop-name {
+  color: #ffffff;
   font-size: 3rem;
-  font-weight: bold;
-  letter-spacing: 5px;
+  font-weight: 800;
+  letter-spacing: 6px;
 }
+
 
 
 
@@ -165,5 +160,6 @@ body {
   background-color: #dc3545;
   color: #fff;
 }
+
 
 
