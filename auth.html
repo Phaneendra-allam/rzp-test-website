@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Signup - AVR Shop</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+    }
+    .auth-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+    .auth-container input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .auth-container button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #ff6f61;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .auth-container button:hover {
+      background: #ff3b2e;
+      transform: scale(1.05);
+    }
+    .auth-container a {
+      color: #ff6f61;
+      text-decoration: none;
+    }
+    .toggle-link {
+      margin-top: 10px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-container">
+  <h2 id="formTitle">Login</h2>
+
+  <input type="text" id="nameField" placeholder="Your Name" style="display:none;">
+  <input type="email" id="emailField" placeholder="Email">
+  <input type="password" id="passwordField" placeholder="Password">
+  <button id="submitBtn">Login</button>
+
+  <span class="toggle-link">
+    <a href="#" id="toggleLink">Don't have an account? Signup</a>
+  </span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  // ====== INIT ======
+  emailjs.init("NEhltHkKsFoRI6gWB"); // your EmailJS user ID
+
+  const formTitle = document.getElementById("formTitle");
+  const nameField = document.getElementById("nameField");
+  const emailField = document.getElementById("emailField");
+  const passwordField = document.getElementById("passwordField");
+  const submitBtn = document.getElementById("submitBtn");
+  const toggleLink = document.getElementById("toggleLink");
+
+  let isLogin = true; // toggle between login/signup
+
+  // ====== TOGGLE LOGIN/SIGNUP ======
+  toggleLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    isLogin = !isLogin;
+    if (isLogin) {
+      formTitle.innerText = "Login";
+      nameField.style.display = "none";
+      submitBtn.innerText = "Login";
+      toggleLink.innerText = "Don't have an account? Signup";
+    } else {
+      formTitle.innerText = "Signup";
+      nameField.style.display = "block";
+      submitBtn.innerText = "Signup";
+      toggleLink.innerText = "Already have an account? Login";
+    }
+  });
+
+  // ====== SUBMIT FORM ======
+  submitBtn.addEventListener("click", () => {
+    const name = nameField.value.trim();
+    const email = emailField.value.trim();
+    const password = passwordField.value.trim();
+
+    if (!email || !password || (!isLogin && !name)) {
+      alert("Please fill all details!");
+      return;
+    }
+
+    const templateParams = isLogin
+      ? { email, password, type: "Login" }
+      : { name, email, password, type: "Signup" };
+
+    emailjs.send("service_2l3l97q", "template_zwe1s48", templateParams)
+      .then(() => {
+        alert((isLogin ? "Login" : "Signup") + " successful! Details sent to email.");
+        localStorage.setItem("userEmail", email);
+        window.location.href = "index.html";
+      })
+      .catch(err => alert("Email sending failed: " + err));
+  });
+</script>
+
+</body>
+</html>
