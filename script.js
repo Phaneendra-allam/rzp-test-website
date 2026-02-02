@@ -1,10 +1,9 @@
-// HAMBURGER
-const hamburger=document.getElementById("hamburgerBtn");
-const navMenu=document.getElementById("navMenu");
-hamburger.onclick=()=>navMenu.classList.toggle("show");
+// ================= EMAILJS & RAZORPAY =================
+emailjs.init("NEhltHkKsFoRI6gWB");
+const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
-// PRODUCTS DATA
-const products=[
+// ================= PRODUCTS =================
+const products = [
   {name:"Earphones",price:100,img:"https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140"},
   {name:"Wireless Buds",price:200,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNJtwIVpK54TZqJYYnspNfzXxKseEerzz3mA&s"},
   {name:"Smartphone",price:500,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdjxA4-jlECytxXWi100sXAUDAl8RW6aoVpA&s"},
@@ -15,49 +14,114 @@ const products=[
   {name:"Gaming Console",price:25000,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdgTv3o0vrUu5yV5-hLEpKSlwIHJltQzNP8A&s"}
 ];
 
-const container=document.getElementById("productsContainer");
+// ================= RENDER PRODUCTS =================
+const container = document.getElementById("productsContainer");
 
-products.forEach(p=>{
-  const div=document.createElement("div");
-  div.className="product";
-  div.dataset.name=p.name;
-  div.innerHTML=`
-    <img src="${p.img}">
-    <h3>${p.name}</h3>
-    <p>Price: ₹${p.price}</p>
-    <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
-    <button onclick="buyNow()">Buy Now</button>
+products.forEach(p => {
+  container.innerHTML += `
+    <div class="product" data-name="${p.name.toLowerCase()}">
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <p>₹${p.price}</p>
+      <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
+      <button onclick="openCustomerForm(${p.price},'${p.name}')">Buy Now</button>
+    </div>
   `;
-  container.appendChild(div);
 });
 
-// SEARCH
-function filterProducts(){
-  const val=document.getElementById("searchInput").value.toLowerCase();
-  document.querySelectorAll(".product").forEach(p=>{
-    p.style.display=p.dataset.name.toLowerCase().includes(val)?"block":"none";
+// ================= SEARCH =================
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+  document.querySelectorAll(".product").forEach(p => {
+    p.style.display = p.dataset.name.includes(value) ? "block" : "none";
   });
+});
+
+// ================= CART =================
+let cart = [];
+
+function addToCart(name, price) {
+  cart.push({name, price});
+  updateCart();
 }
 
-// CART
-let cart=[];
-function addToCart(name,price){
-  cart.push({name,price});
-  alert(name+" added to cart");
+function updateCart() {
+  cartItems.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        ${item.name} ₹${item.price}
+        <button onclick="removeItem(${index})">❌</button>
+      </div>
+    `;
+  });
+
+  cartTotal.innerText = total;
+  cartCount.innerText = cart.length;
 }
 
-function toggleCart(){
-  document.getElementById("cartSidebar").classList.toggle("show");
+function removeItem(i) {
+  cart.splice(i, 1);
+  updateCart();
 }
 
-function checkout(){
-  alert("Checkout successful!");
+function toggleCart() {
+  cartSidebar.classList.toggle("show");
 }
 
-// POPUP
-function buyNow(){
-  document.getElementById("customerForm").classList.add("show");
+function checkout() {
+  alert("Please use Buy Now to pay");
 }
-function closeCustomerForm(){
-  document.getElementById("customerForm").classList.remove("show");
+
+// ================= POPUP =================
+let selectedAmount = 0;
+let selectedProduct = "";
+
+function openCustomerForm(amount, product) {
+  selectedAmount = amount;
+  selectedProduct = product;
+  customerForm.classList.add("show");
+}
+
+function closeCustomerForm() {
+  customerForm.classList.remove("show");
+  customerName.value = "";
+  customerNumber.value = "";
+}
+
+// ================= PAY =================
+payButton.addEventListener("click", () => {
+  if (!customerName.value || !customerNumber.value) {
+    alert("Please fill all details");
+    return;
+  }
+  closeCustomerForm();
+  payNow(selectedAmount, selectedProduct, customerName.value, customerNumber.value);
+});
+
+function payNow(amount, productName, customerName, customerNumber) {
+  const options = {
+    key: keyId,
+    amount: amount * 100,
+    currency: "INR",
+    name: "AVR Shop",
+    description: productName,
+    handler: function (response) {
+      emailjs.send("service_2l3l97q", "template_zwe1s48", {
+        name: customerName,
+        product: productName,
+        amount: amount,
+        customer_number: customerNumber,
+        payment_id: response.razorpay_payment_id
+      })
+      .then(() => alert("Payment Successful & Email Sent!"))
+      .catch(err => alert("Payment OK, Email Failed"));
+    },
+    theme: { color: "#ff6f61" }
+  };
+
+  new Razorpay(options).open();
 }
