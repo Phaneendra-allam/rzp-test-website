@@ -13,7 +13,11 @@
   <h1 class="logo">AVR Shop</h1>
   <input type="text" id="searchInput" placeholder="Search products...">
   <button class="cart-btn" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+  <button id="logoutBtn">Logout</button>
 </nav>
+
+<!-- WELCOME MESSAGE -->
+<div id="welcomeMsg" style="text-align:center; margin:10px 0; color:#ff6f61;"></div>
 
 <!-- PRODUCTS -->
 <main class="container">
@@ -58,10 +62,25 @@
   </div>
 </div>
 
-<!-- REQUIRED SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="script.js"></script>
+<script>
+  // ================= LOGIN PROTECTION =================
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (!currentUser) {
+    alert("Please login first!");
+    window.location.href = "login.html";
+  } else {
+    document.getElementById('welcomeMsg').innerText = `Welcome, ${currentUser.name}!`;
+  }
 
+  // ================= LOGOUT =================
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("currentUser");
+    alert("Logged out successfully");
+    window.location.href = "login.html";
+  });
+</script>
 </body>
 </html>
