@@ -46,64 +46,6 @@
   </div>
 </div>
 
-<script>
-  function showSignup() {
-    document.getElementById('loginForm').classList.add('hidden');
-    document.getElementById('signupForm').classList.remove('hidden');
-  }
-  function showLogin() {
-    document.getElementById('signupForm').classList.add('hidden');
-    document.getElementById('loginForm').classList.remove('hidden');
-  }
-
-  function sendEmail(name, email, phone, type){
-    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
-      user_name: name,
-      user_email: email,
-      user_phone: phone,
-      action_type: type
-    }).then(() => console.log('Email sent successfully'))
-      .catch(err => console.error('Email sending failed', err));
-  }
-
-  function signup() {
-    const name = document.getElementById('signupName').value;
-    const email = document.getElementById('signupEmail').value;
-    const phone = document.getElementById('signupPhone').value;
-    const password = document.getElementById('signupPassword').value;
-
-    if(!name || !email || !phone || !password){ alert('Fill all fields'); return; }
-
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    if(users.find(u => u.email === email)){ alert('Email already registered'); showLogin(); return; }
-
-    users.push({name,email,phone,password});
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify({name,email}));
-
-    sendEmail(name,email,phone,'Signup');
-
-    alert('Signup successful!');
-    window.location.href = 'index.html';
-  }
-
-  function login() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
-
-    if(user){
-      localStorage.setItem('currentUser', JSON.stringify({name:user.name,email:user.email}));
-
-      sendEmail(user.name,user.email,'', 'Login');
-
-      alert('Login successful!');
-      window.location.href = 'index.html';
-    } else { alert('Invalid email or password'); }
-  }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
