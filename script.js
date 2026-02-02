@@ -13,9 +13,15 @@ function openCustomerForm(amount, product) {
 }
 
 function closeCustomerForm() {
-  document.getElementById("customerForm").classList.remove("show");
-  document.getElementById("customerName").value = "";
-  document.getElementById("customerNumber").value = "";
+  const popup = document.getElementById("customerForm");
+  popup.style.opacity = "0"; // start fade-out
+
+  setTimeout(() => {
+    popup.classList.remove("show");
+    popup.style.opacity = "1"; // reset
+    document.getElementById("customerName").value = "";
+    document.getElementById("customerNumber").value = "";
+  }, 300); // match CSS transition
 }
 
 document.addEventListener("DOMContentLoaded", function () {
