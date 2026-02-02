@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Signup - AVR Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f5f5f5; }
+    .auth-container { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.2); width: 350px; }
+    h2 { text-align: center; color: #ff6f61; margin-bottom: 20px; }
+    input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    button { width: 100%; padding: 10px; border-radius: 6px; border: none; background: #ff6f61; color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #ff3b2e; }
+    p { text-align: center; margin-top: 10px; font-size: 0.9rem; }
+    a { color: #ff6f61; cursor: pointer; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="auth-container">
+  <!-- LOGIN FORM -->
+  <div id="loginForm">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <a onclick="showSignup()">Sign Up</a></p>
+  </div>
+
+  <!-- SIGNUP FORM -->
+  <div id="signupForm" class="hidden">
+    <h2>Sign Up</h2>
+    <input type="text" id="signupName" placeholder="Full Name">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="text" id="signupPhone" placeholder="Phone Number">
+    <input type="password" id="signupPassword" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
+    <p>Already have an account? <a onclick="showLogin()">Login</a></p>
+  </div>
+</div>
+
+<script>
+  // Switch between login and signup
+  function showSignup() {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.remove('hidden');
+  }
+  function showLogin() {
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('loginForm').classList.remove('hidden');
+  }
+
+  // Signup function
+  function signup() {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const phone = document.getElementById('signupPhone').value;
+    const password = document.getElementById('signupPassword').value;
+
+    if(!name || !email || !phone || !password) {
+      alert('Please fill all fields!');
+      return;
+    }
+
+    // Store users in localStorage
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+    // Check if email already exists
+    if(users.find(u => u.email === email)) {
+      alert('Email already registered! Please login.');
+      showLogin();
+      return;
+    }
+
+    users.push({name, email, phone, password});
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('currentUser', JSON.stringify({name,email})); // auto-login
+
+    alert('Signup successful!');
+    window.location.href = 'index.html'; // redirect to shop
+  }
+
+  // Login function
+  function login() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if(user){
+      localStorage.setItem('currentUser', JSON.stringify({name:user.name,email:user.email}));
+      alert('Login successful!');
+      window.location.href = 'index.html'; // redirect to shop
+    } else {
+      alert('Invalid email or password');
+    }
+  }
+</script>
+
+</body>
+</html>
