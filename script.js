@@ -1,45 +1,52 @@
 // Initialize EmailJS
-emailjs.init("NEhltHkKsFoRI6gWB"); // Your EmailJS Public Key
-const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Razorpay test key
+emailjs.init("NEhltHkKsFoRI6gWB"); 
+
+const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
 let selectedProduct = "";
 let selectedAmount = 0;
 
-// ===== OPEN CUSTOMER POPUP =====
+// OPEN POPUP
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
-
-  // Make sure popup is visible only when called
   const form = document.getElementById("customerForm");
-  form.style.display = "flex"; // show popup
+  form.classList.add("show");
 }
 
-// ===== CLOSE CUSTOMER POPUP =====
+// CLOSE POPUP
 function closeCustomerForm() {
   const form = document.getElementById("customerForm");
-  form.style.display = "none"; // hide popup
+  form.classList.remove("show");
   document.getElementById("customerName").value = "";
   document.getElementById("customerNumber").value = "";
 }
 
-// ===== PAY BUTTON =====
+// THANK YOU POPUP
+function showThankYou() {
+  const msg = document.getElementById("thankYouMessage");
+  msg.classList.add("show");
+
+  // Hide automatically after 3 seconds
+  setTimeout(() => msg.classList.remove("show"), 3000);
+}
+
+// PAY BUTTON
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("payButton").addEventListener("click", () => {
-    const customerName = document.getElementById("customerName").value.trim();
-    const customerNumber = document.getElementById("customerNumber").value.trim();
+    const name = document.getElementById("customerName").value.trim();
+    const number = document.getElementById("customerNumber").value.trim();
 
-    if (!customerName || !customerNumber) {
+    if (!name || !number) {
       alert("Please enter both Name and Phone Number!");
       return;
     }
 
-    closeCustomerForm(); // hide popup
-    payNow(selectedAmount, selectedProduct, customerName, customerNumber);
+    closeCustomerForm();
+    payNow(selectedAmount, selectedProduct, name, number);
   });
 });
 
-// ===== RAZORPAY PAYMENT =====
 function payNow(amount, productName, customerName, customerNumber) {
   const options = {
     key: keyId,
@@ -57,19 +64,11 @@ function payNow(amount, productName, customerName, customerNumber) {
         customer_number: customerNumber,
         payment_id: response.razorpay_payment_id
       })
-      .then(() => {
-        // SHOW THANK YOU MESSAGE CENTERED
-        const thankYou = document.getElementById("thankYouMessage");
-        thankYou.style.display = "flex";
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
-        setTimeout(() => {
-          thankYou.style.display = "none";
-        }, 3000);
-      })
+      .then(() => showThankYou())
       .catch((error) => {
         alert("Payment Successful, but Email Failed");
-        console.error("EmailJS Error:", error);
+        console.error(error);
+        showThankYou();
       });
     },
     theme: { color: "#ff6f61" }
