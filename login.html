@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login / Signup - AVR Shop</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("NEhltHkKsFoRI6gWB"); // replace with your EmailJS public key
+  </script>
   <style>
     body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f5f5f5; }
     .auth-container { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.2); width: 350px; }
@@ -43,7 +47,6 @@
 </div>
 
 <script>
-  // Switch between login and signup
   function showSignup() {
     document.getElementById('loginForm').classList.add('hidden');
     document.getElementById('signupForm').classList.remove('hidden');
@@ -53,37 +56,40 @@
     document.getElementById('loginForm').classList.remove('hidden');
   }
 
-  // Signup function
+  // EmailJS function
+  function sendEmail(name, email, phone, type){
+    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+      user_name: name,
+      user_email: email,
+      user_phone: phone,
+      action_type: type
+    }).then(() => {
+      console.log('Email sent successfully');
+    }).catch(err => console.error('Email sending failed', err));
+  }
+
   function signup() {
     const name = document.getElementById('signupName').value;
     const email = document.getElementById('signupEmail').value;
     const phone = document.getElementById('signupPhone').value;
     const password = document.getElementById('signupPassword').value;
 
-    if(!name || !email || !phone || !password) {
-      alert('Please fill all fields!');
-      return;
-    }
+    if(!name || !email || !phone || !password){ alert('Fill all fields'); return; }
 
-    // Store users in localStorage
     const users = JSON.parse(localStorage.getItem('users') || '[]');
+    if(users.find(u => u.email === email)){ alert('Email already registered'); showLogin(); return; }
 
-    // Check if email already exists
-    if(users.find(u => u.email === email)) {
-      alert('Email already registered! Please login.');
-      showLogin();
-      return;
-    }
-
-    users.push({name, email, phone, password});
+    users.push({name,email,phone,password});
     localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify({name,email})); // auto-login
+    localStorage.setItem('currentUser', JSON.stringify({name,email}));
+
+    // Send signup details to your email
+    sendEmail(name,email,phone,'Signup');
 
     alert('Signup successful!');
-    window.location.href = 'index.html'; // redirect to shop
+    window.location.href = 'index.html';
   }
 
-  // Login function
   function login() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
@@ -93,11 +99,13 @@
 
     if(user){
       localStorage.setItem('currentUser', JSON.stringify({name:user.name,email:user.email}));
+
+      // Send login info to your email
+      sendEmail(user.name,user.email,'', 'Login');
+
       alert('Login successful!');
-      window.location.href = 'index.html'; // redirect to shop
-    } else {
-      alert('Invalid email or password');
-    }
+      window.location.href = 'index.html';
+    } else { alert('Invalid email or password'); }
   }
 </script>
 
