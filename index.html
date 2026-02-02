@@ -74,8 +74,25 @@
       <p>Price: ₹25000</p>
       <button>Buy Now</button>
     </div>
-
+    
+<!-- Customer Info Popup -->
+  <div id="customerForm">
+    <div class="popup-content">
+      <h3>Enter your details</h3>
+      <input type="text" id="customerName" placeholder="Your Name" />
+      <input type="text" id="customerNumber" placeholder="Phone Number" />
+      <div class="popup-buttons">
+        <button id="payButton">Pay Now</button>
+        <button onclick="closeCustomerForm()">Cancel</button>
+      </div>
+    </div>
   </div>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
+  
