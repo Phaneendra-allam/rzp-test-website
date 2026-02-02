@@ -1,3 +1,78 @@
+// ================= LOGIN/SIGNUP EMAIL =================
+async function sendAuthEmail(name, email, phone, type) {
+  try {
+    await fetch("/api/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, phone, type })
+    });
+    console.log(type + " email sent");
+  } catch(err) { console.error(err); }
+}
+
+// ================= CHECK LOGIN =================
+const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+if (!currentUser && window.location.pathname.includes("index.html")) {
+  alert("Please login first!");
+  window.location.href = "login.html";
+} else if(currentUser){
+  document.getElementById("welcomeMsg")?.innerText = `Welcome, ${currentUser.name}!`;
+}
+
+// ================= LOGOUT =================
+document.getElementById("logoutBtn")?.addEventListener("click", () => {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+});
+
+// ================= SHOW/HIDE FORMS =================
+function showSignup() {
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('signupForm').classList.remove('hidden');
+}
+function showLogin() {
+  document.getElementById('signupForm').classList.add('hidden');
+  document.getElementById('loginForm').classList.remove('hidden');
+}
+
+// ================= SIGNUP =================
+async function signup() {
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const phone = document.getElementById('signupPhone').value;
+  const password = document.getElementById('signupPassword').value;
+
+  if(!name || !email || !phone || !password){ alert('Fill all fields'); return; }
+
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  if(users.find(u => u.email === email)){ alert('Email already registered'); showLogin(); return; }
+
+  users.push({name,email,phone,password});
+  localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem('currentUser', JSON.stringify({name,email}));
+
+  await sendAuthEmail(name, email, phone, "Signup");
+
+  alert('Signup successful!');
+  window.location.href = 'index.html';
+}
+
+// ================= LOGIN =================
+async function login() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = users.find(u => u.email === email && u.password === password);
+
+  if(user){
+    localStorage.setItem('currentUser', JSON.stringify({name:user.name,email:user.email}));
+    await sendAuthEmail(user.name, user.email, '', 'Login');
+    window.location.href = 'index.html';
+  } else { alert('Invalid email or password'); }
+}
+
+// ================= EMAILJS & RAZORPAY =================
 emailjs.init("NEhltHkKsFoRI6gWB");
 const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
@@ -36,31 +111,29 @@ document.getElementById("searchInput").addEventListener("input", () => {
 });
 
 // ================= CART =================
+let cart = [];
 const cartSidebar = document.getElementById("cartSidebar");
 const cartItems = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
 const cartCount = document.getElementById("cartCount");
-let cart = [];
 
-// ADD TO CART WITH LOGIN CHECK
-function addToCart(name, price) {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  if(!currentUser){ alert("Login to add items to cart"); window.location.href="login.html"; return; }
+function addToCart(name, price){
+  if(!currentUser){ alert("Login to add items"); window.location.href="login.html"; return; }
   cart.push({name, price});
   updateCart();
 }
 
-function updateCart() {
+function updateCart(){
   cartItems.innerHTML = "";
   let total = 0;
-  cart.forEach((item,index)=>{
-    total+=item.price;
+  cart.forEach((item, i) => {
+    total += item.price;
     cartItems.innerHTML += `
       <div class="cart-item">
         <span>${item.name} ₹${item.price}</span>
         <div class="cart-actions">
-          <button class="cancel-btn" onclick="removeItem(${index})">❌</button>
-          <button class="pay-btn" onclick="paySingleItem(${index})">💳 Pay</button>
+          <button class="cancel-btn" onclick="removeItem(${i})">❌</button>
+          <button class="pay-btn" onclick="paySingleItem(${i})">💳 Pay</button>
         </div>
       </div>
     `;
@@ -73,69 +146,59 @@ function removeItem(i){ cart.splice(i,1); updateCart(); }
 function toggleCart(){ cartSidebar.classList.toggle("show"); }
 document.getElementById("closeCartBtn").addEventListener("click", ()=>cartSidebar.classList.remove("show"));
 
-// ================= POPUP =================
+// ================= CUSTOMER POPUP =================
 let selectedAmount=0, selectedProduct="";
-const customerForm=document.getElementById("customerForm");
-const customerName=document.getElementById("customerName");
-const customerNumber=document.getElementById("customerNumber");
-const payButton=document.getElementById("payButton");
+const customerForm = document.getElementById("customerForm");
+const customerName = document.getElementById("customerName");
+const customerNumber = document.getElementById("customerNumber");
+const payButton = document.getElementById("payButton");
 
 function openCustomerForm(amount, product){
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  if(!currentUser){ alert("Login to buy products"); window.location.href="login.html"; return; }
-
-  selectedAmount=amount;
-  selectedProduct=product;
+  selectedAmount=amount; selectedProduct=product;
   customerForm.classList.add("show");
 }
-
 function closeCustomerForm(){
   customerForm.classList.remove("show");
-  customerName.value="";
-  customerNumber.value="";
+  customerName.value=""; customerNumber.value="";
 }
 
 // ================= PAY =================
-payButton.addEventListener("click",()=>{
-  if(!customerName.value || !customerNumber.value){ alert("Please fill all details"); return; }
+payButton.addEventListener("click", ()=>{
+  if(!customerName.value || !customerNumber.value){ alert("Fill all details"); return; }
   closeCustomerForm();
   payNow(selectedAmount, selectedProduct, customerName.value, customerNumber.value);
 });
 
 function payNow(amount, productName, customerName, customerNumber){
-  const options={
-    key:keyId,
-    amount:amount*100,
-    currency:"INR",
-    name:"AVR Shop",
+  const options = {
+    key:keyId, amount:amount*100, currency:"INR", name:"AVR Shop",
     description:productName,
-    handler:function(response){
-      emailjs.send("service_2l3l97q","template_zwe1s48",{
-        name:customerName,
-        product:productName,
-        amount:amount,
-        customer_number:customerNumber,
-        payment_id:response.razorpay_payment_id
-      }).then(()=>{
-        alert("Payment Successful & Email Sent!");
+    handler: async function(response){
+      try {
+        await fetch("/api/sendEmail", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            name: customerName,
+            product: productName,
+            amount,
+            customer_number: customerNumber,
+            payment_id: response.razorpay_payment_id
+          })
+        });
+        alert("Payment Success & Email Sent");
         cart=[]; updateCart();
-      }).catch(err=>{
-        alert("Payment OK, Email Failed");
-        cart=[]; updateCart();
-      });
+      } catch(err){ alert("Payment OK, Email Failed"); cart=[]; updateCart(); }
     },
     theme:{color:"#ff6f61"}
   };
   new Razorpay(options).open();
 }
 
-function paySingleItem(index){ openCustomerForm(cart[index].price, cart[index].name); }
-
-function checkout(){
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  if(!currentUser){ alert("Login to checkout"); window.location.href="login.html"; return; }
-  if(cart.length===0){ alert("Your cart is empty!"); return; }
-  selectedAmount=cart.reduce((sum,i)=>sum+i.price,0);
-  selectedProduct=cart.map(i=>i.name).join(",");
+function paySingleItem(i){ const item=cart[i]; openCustomerForm(item.price,item.name); }
+function checkout(){ if(cart.length===0){alert("Cart empty"); return;}
+  let total = cart.reduce((a,b)=>a+b.price,0);
+  let products = cart.map(c=>c.name).join(", ");
+  selectedAmount=total; selectedProduct=products;
   customerForm.classList.add("show");
 }
