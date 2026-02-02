@@ -20,72 +20,90 @@
           <li><a href="#">Contact</a></li>
         </ul>
       </nav>
-      <div class="search-bar">
+      <div class="search-cart-container">
         <input type="text" id="searchInput" placeholder="Search products..." />
+        <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
       </div>
+    </div>
+    <div class="category-filters">
+      <button onclick="filterCategory('all')">All</button>
+      <button onclick="filterCategory('Earphones')">Earphones</button>
+      <button onclick="filterCategory('Smart Devices')">Smart Devices</button>
+      <button onclick="filterCategory('Home Appliances')">Appliances</button>
     </div>
   </header>
 
   <!-- ===== PRODUCTS ===== -->
   <h2 class="section-title">Our Products</h2>
   <div class="products-container" id="productsContainer">
-
-    <div class="product">
+    <!-- PRODUCT CARD EXAMPLES -->
+    <div class="product" data-category="Earphones">
       <img src="https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140" alt="Earphones">
       <h3>Earphones</h3>
       <p>Price: ₹100</p>
-      <button onclick="openCustomerForm(100, 'Earphones')">Buy Now</button>
+      <button onclick="addToCart('Earphones',100)">Add to Cart</button>
+      <button onclick="openCustomerForm(100,'Earphones')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Smart Devices">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNJtwIVpK54TZqJYYnspNfzXxKseEerzz3mA&s" alt="Wireless Buds">
       <h3>Wireless Buds</h3>
       <p>Price: ₹200</p>
-      <button onclick="openCustomerForm(200, 'Wireless Buds')">Buy Now</button>
+      <button onclick="addToCart('Wireless Buds',200)">Add to Cart</button>
+      <button onclick="openCustomerForm(200,'Wireless Buds')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Smart Devices">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdjxA4-jlECytxXWi100sXAUDAl8RW6aoVpA&s" alt="Smartphone">
       <h3>Smartphone</h3>
       <p>Price: ₹500</p>
-      <button onclick="openCustomerForm(500, 'Smartphone')">Buy Now</button>
+      <button onclick="addToCart('Smartphone',500)">Add to Cart</button>
+      <button onclick="openCustomerForm(500,'Smartphone')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Home Appliances">
       <img src="https://m.media-amazon.com/images/I/71utBmCdAYL._AC_UF1000,1000_QL80_.jpg" alt="AC Cooler">
       <h3>AC Cooler</h3>
       <p>Price: ₹1000</p>
-      <button onclick="openCustomerForm(1000, 'AC Cooler')">Buy Now</button>
+      <button onclick="addToCart('AC Cooler',1000)">Add to Cart</button>
+      <button onclick="openCustomerForm(1000,'AC Cooler')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Smart Devices">
       <img src="https://m.media-amazon.com/images/I/71XA0QCW5lL._AC_UF1000,1000_QL80_.jpg" alt="Smartwatch">
       <h3>Smartwatch</h3>
       <p>Price: ₹800</p>
-      <button onclick="openCustomerForm(800, 'Smartwatch')">Buy Now</button>
+      <button onclick="addToCart('Smartwatch',800)">Add to Cart</button>
+      <button onclick="openCustomerForm(800,'Smartwatch')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Smart Devices">
       <img src="https://europe.yamaha.com/en/files/speaker-top-bnr-1200x480_tcm113-2295062.jpg?impolicy=resize&imwid=770&imhei=308" alt="Bluetooth Speaker">
       <h3>Bluetooth Speaker</h3>
       <p>Price: ₹600</p>
-      <button onclick="openCustomerForm(600, 'Bluetooth Speaker')">Buy Now</button>
+      <button onclick="addToCart('Bluetooth Speaker',600)">Add to Cart</button>
+      <button onclick="openCustomerForm(600,'Bluetooth Speaker')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Smart Devices">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-t9Ix5P-jFp6ksUffJ8lRS8HxcgbwHvopw&s" alt="Laptop">
       <h3>Laptop</h3>
       <p>Price: ₹30000</p>
-      <button onclick="openCustomerForm(30000, 'Laptop')">Buy Now</button>
+      <button onclick="addToCart('Laptop',30000)">Add to Cart</button>
+      <button onclick="openCustomerForm(30000,'Laptop')">Buy Now</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="Smart Devices">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdgTv3o0vrUu5yV5-hLEpKSlwIHJltQzNP8A&s" alt="Gaming Console">
       <h3>Gaming Console</h3>
       <p>Price: ₹25000</p>
-      <button onclick="openCustomerForm(25000, 'Gaming Console')">Buy Now</button>
+      <button onclick="addToCart('Gaming Console',25000)">Add to Cart</button>
+      <button onclick="openCustomerForm(25000,'Gaming Console')">Buy Now</button>
     </div>
 
+    <p id="noResults" style="text-align:center; margin-top:20px; display:none; color:#555; font-size:1.1rem;">
+      No products found!
+    </p>
   </div>
 
   <!-- ===== CUSTOMER FORM POPUP ===== -->
@@ -101,6 +119,13 @@
     </div>
   </div>
 
+  <!-- ===== MINI CART POPUP ===== -->
+  <div id="miniCart" class="popup-content">
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <button onclick="checkoutCart()">Checkout</button>
+  </div>
+
   <!-- ===== THANK YOU POPUP ===== -->
   <div id="thankYouMessage">
     <div class="popup-content">
@@ -112,6 +137,5 @@
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="script.js"></script>
-
 </body>
 </html>
