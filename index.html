@@ -1,120 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AVR Shop</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <!-- Razorpay SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AVR Shop</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header>
-    <div class="shop-name">AVR Shop</div>
-    <div class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" role="button" tabindex="0">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </header>
-
-  <!-- ===== NAV MENU ===== -->
-  <nav id="navMenu">
-    <a href="#homeSection">Home</a>
-    <a href="#productsSection">Products</a>
-    <a href="#aboutSection">About</a>
-    <a href="#contactSection">Contact</a>
-  </nav>
-
-  <!-- ===== SEARCH BAR ===== -->
-  <div class="search-bar-container">
-    <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products" />
+<!-- HEADER -->
+<header>
+  <div class="shop-name">AVR Shop</div>
+  <div class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" role="button" tabindex="0">
+    <div></div><div></div><div></div>
   </div>
+</header>
 
-  <!-- ===== CATEGORY FILTER ===== -->
-  <div class="category-filter">
-    <button onclick="filterCategory('all')">All</button>
-    <button onclick="filterCategory('Smart Devices')">Smart Devices</button>
-    <button onclick="filterCategory('Appliances')">Appliances</button>
+<!-- NAV -->
+<nav id="navMenu" aria-label="Main navigation">
+  <a href="#homeSection">Home</a>
+  <a href="#productsSection">Products</a>
+  <a href="#aboutSection">About</a>
+  <a href="#contactSection">Contact</a>
+</nav>
+
+<!-- SEARCH BAR -->
+<div class="search-bar-container">
+  <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()" />
+</div>
+
+<!-- HOME SECTION -->
+<section id="homeSection">
+  <h1>Welcome to AVR Shop</h1>
+</section>
+
+<!-- PRODUCTS SECTION -->
+<h2 class="section-title" id="productsSection">Our Products</h2>
+<div class="products-container" id="productsContainer">
+  <!-- Product cards will go here -->
+  
+  <!-- PRODUCTS SECTION -->
+<h2 class="section-title" id="productsSection">Our Products</h2>
+<div class="products-container" id="productsContainer">
+  <!-- PRODUCT EXAMPLES -->
+  <div class="product" data-name="Earphones">
+    <img src="https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140" alt="Earphones" />
+    <h3>Earphones</h3>
+    <p>Price: ₹100</p>
+    <button onclick="addToCart('Earphones',100)">Add to Cart</button>
+    <button onclick="buyNow('Earphones',100)">Buy Now</button>
   </div>
-
-  <!-- ===== HOME SECTION ===== -->
-  <section id="homeSection" class="home-section">
-    <h1>Welcome to AVR Shop</h1>
-  </section>
-
-  <!-- ===== PRODUCTS SECTION ===== -->
-  <h2 class="section-title" id="productsSection">Our Products</h2>
-  <div class="products-container" id="productsContainer">
-    <!-- Example product -->
-    <div class="product" data-category="Smart Devices">
-      <img src="https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140" alt="Earphones" />
-      <h3>Earphones</h3>
-      <p>Price: ₹100</p>
-      <button onclick="addToCart('Earphones',100)">Add to Cart</button>
-      <button onclick="openCustomerForm(100,'Earphones')">Buy Now</button>
-    </div>
-
-    <div class="product" data-category="Smart Devices">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNJtwIVpK54TZqJYYnspNfzXxKseEerzz3mA&s" alt="Wireless Buds" />
-      <h3>Wireless Buds</h3>
-      <p>Price: ₹200</p>
-      <button onclick="addToCart('Wireless Buds',200)">Add to Cart</button>
-      <button onclick="openCustomerForm(200,'Wireless Buds')">Buy Now</button>
-    </div>
-
-    <div class="product" data-category="Appliances">
-      <img src="https://m.media-amazon.com/images/I/71utBmCdAYL._AC_UF1000,1000_QL80_.jpg" alt="AC Cooler" />
-      <h3>AC Cooler</h3>
-      <p>Price: ₹1000</p>
-      <button onclick="addToCart('AC Cooler',1000)">Add to Cart</button>
-      <button onclick="openCustomerForm(1000,'AC Cooler')">Buy Now</button>
-    </div>
+  <div class="product" data-name="Wireless Buds">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNJtwIVpK54TZqJYYnspNfzXxKseEerzz3mA&s" alt="Wireless Buds" />
+    <h3>Wireless Buds</h3>
+    <p>Price: ₹200</p>
+    <button onclick="addToCart('Wireless Buds',200)">Add to Cart</button>
+    <button onclick="buyNow('Wireless Buds',200)">Buy Now</button>
   </div>
+  <div class="product" data-name="Smartphone">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdjxA4-jlECytxXWi100sXAUDAl8RW6aoVpA&s" alt="Smartphone" />
+    <h3>Smartphone</h3>
+    <p>Price: ₹500</p>
+    <button onclick="addToCart('Smartphone',500)">Add to Cart</button>
+    <button onclick="buyNow('Smartphone',500)">Buy Now</button>
+  </div>
+  <div class="product" data-name="AC Cooler">
+    <img src="https://m.media-amazon.com/images/I/71utBmCdAYL._AC_UF1000,1000_QL80_.jpg" alt="AC Cooler" />
+    <h3>AC Cooler</h3>
+    <p>Price: ₹1000</p>
+    <button onclick="addToCart('AC Cooler',1000)">Add to Cart</button>
+    <button onclick="buyNow('AC Cooler',1000)">Buy Now</button>
+  </div>
+  <div class="product" data-name="Smartwatch">
+    <img src="https://m.media-amazon.com/images/I/71XA0QCW5lL._AC_UF1000,1000_QL80_.jpg" alt="Smartwatch" />
+    <h3>Smartwatch</h3>
+    <p>Price: ₹800</p>
+    <button onclick="addToCart('Smartwatch',800)">Add to Cart</button>
+    <button onclick="buyNow('Smartwatch',800)">Buy Now</button>
+  </div>
+  <div class="product" data-name="Bluetooth Speaker">
+    <img src="https://europe.yamaha.com/en/files/speaker-top-bnr-1200x480_tcm113-2295062.jpg?impolicy=resize&imwid=770&imhei=308" alt="Bluetooth Speaker" />
+    <h3>Bluetooth Speaker</h3>
+    <p>Price: ₹600</p>
+    <button onclick="addToCart('Bluetooth Speaker',600)">Add to Cart</button>
+    <button onclick="buyNow('Bluetooth Speaker',600)">Buy Now</button>
+  </div>
+  <div class="product" data-name="Laptop">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-t9Ix5P-jFp6ksUffJ8lRS8HxcgbwHvopw&s" alt="Laptop" />
+    <h3>Laptop</h3>
+    <p>Price: ₹30000</p>
+    <button onclick="addToCart('Laptop',30000)">Add to Cart</button>
+    <button onclick="buyNow('Laptop',30000)">Buy Now</button>
+  </div>
+  <div class="product" data-name="Gaming Console">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdgTv3o0vrUu5yV5-hLEpKSlwIHJltQzNP8A&s" alt="Gaming Console" />
+    <h3>Gaming Console</h3>
+    <p>Price: ₹25000</p>
+    <button onclick="addToCart('Gaming Console',25000)">Add to Cart</button>
+    <button onclick="buyNow('Gaming Console',25000)">Buy Now</button>
+  </div>
+  
+</div>
 
-  <!-- ===== NO RESULTS MESSAGE ===== -->
-  <p id="noResults">No products found</p>
+<!-- ABOUT -->
+<section id="aboutSection">
+  <h2 class="section-title">About Us</h2>
+  <p>AVR Shop is your go-to online store for gadgets and smart devices. Latest tech at best prices!</p>
+</section>
 
-  <!-- ===== ABOUT SECTION ===== -->
-  <section id="aboutSection">
-    <h2 class="section-title">About Us</h2>
-    <p>
-      AVR Shop is your go-to online store for gadgets and smart devices. We provide the latest technology at the best prices with fast delivery and reliable customer service.
-    </p>
-  </section>
+<!-- CONTACT -->
+<section id="contactSection">
+  <h2 class="section-title">Contact Us</h2>
+  <p>Email: <a href="mailto:saiphaneendra477@avrshop.com">saiphaneendra477@avrshop.com</a></p>
+  <p>Phone: +91 7661965757</p>
+  <p>Address: Rjy, Seethanagaram, India</p>
+</section>
 
-  <!-- ===== CONTACT SECTION ===== -->
-  <section id="contactSection">
-    <h2 class="section-title">Contact Us</h2>
-    <p>Email: <a href="mailto:saiphaneendra477@avrshop.com">saiphaneendra477@avrshop.com</a></p>
-    <p>Phone: +91 7661965757</p>
-    <p>Address: rjy, seethanagaram, India</p>
-  </section>
-
-  <!-- ===== CUSTOMER FORM ===== -->
-  <div id="customerForm" class="customer-form">
-    <h3>Enter Your Details</h3>
+<!-- CUSTOMER POPUP -->
+<div id="customerForm">
+  <div class="popup-content">
+    <h3>Enter your details</h3>
     <input type="text" id="customerName" placeholder="Your Name" />
     <input type="text" id="customerNumber" placeholder="Phone Number" />
-    <button id="payButton">Pay Now</button>
-    <button onclick="closeCustomerForm()">Cancel</button>
+    <div class="popup-buttons">
+      <button id="payButton">Pay Now</button>
+      <button onclick="closeCustomerForm()">Cancel</button>
+    </div>
   </div>
+</div>
 
-  <!-- ===== MINI CART ===== -->
-  <div id="miniCart" class="mini-cart">
-    <h4>Cart</h4>
-    <div id="cartItems"></div>
-    <button onclick="checkoutCart()">Checkout</button>
-  </div>
+<!-- CART SIDEBAR -->
+<div id="cartSidebar">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <p>Total: ₹<span id="cartTotal">0</span></p>
+  <button onclick="checkout()">Checkout</button>
+</div>
+<button id="cartToggle" onclick="toggleCart()">Cart 🛒</button>
 
-  <!-- Cart Count -->
-  <span id="cartCount">0</span>
-
-  <!-- ===== SCRIPTS ===== -->
-  <script src="script.js"></script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
