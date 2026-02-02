@@ -26,6 +26,23 @@
   <button id="logoutBtn" class="cart-btn">Logout</button>
 </nav>
 
+<script>
+const logoutBtn = document.getElementById("logoutBtn");
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userPassword");
+  alert("Logged out successfully!");
+  window.location.href = "auth.html";
+});
+
+// Redirect if not logged in
+if (!localStorage.getItem("userEmail")) {
+  window.location.href = "auth.html";
+}
+</script>
+
+  
 <!-- PRODUCTS -->
 <main class="container">
   <h2 class="section-title">Our Products</h2>
