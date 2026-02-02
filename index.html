@@ -9,43 +9,40 @@
 <body>
 
   <!-- ===== HEADER / NAVBAR ===== -->
-<header>
-  <div class="nav-container">
-    <h1 class="shop-name">AVR</h1>
-    <nav>
-      <ul>
-        <li><a href="#homeSection">Home</a></li>
-        <li><a href="#productsSection">Products</a></li>
-        <li><a href="#aboutSection">About</a></li>
-        <li><a href="#contactSection">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="search-cart-container">
-      <input type="text" id="searchInput" placeholder="Search products..." />
-      <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+  <header>
+    <div class="nav-container">
+      <h1 class="shop-name">AVR</h1>
+      <nav>
+        <ul>
+          <li><a href="#homeSection">Home</a></li>
+          <li><a href="#productsSection">Products</a></li>
+          <li><a href="#aboutSection">About</a></li>
+          <li><a href="#contactSection">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="search-cart-container">
+        <input type="text" id="searchInput" placeholder="Search products..." />
+        <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+      </div>
     </div>
-  </div>
-  <div class="category-filters">
-    <button onclick="filterCategory('all')">All</button>
-    <button onclick="filterCategory('Earphones')">Earphones</button>
-    <button onclick="filterCategory('Smart Devices')">Smart Devices</button>
-    <button onclick="filterCategory('Home Appliances')">Appliances</button>
-  </div>
-</header>
+    <div class="category-filters">
+      <button onclick="filterCategory('all')">All</button>
+      <button onclick="filterCategory('Earphones')">Earphones</button>
+      <button onclick="filterCategory('Smart Devices')">Smart Devices</button>
+      <button onclick="filterCategory('Home Appliances')">Appliances</button>
+    </div>
+  </header>
 
-<!-- ===== HOME SECTION ===== -->
-<section id="homeSection" style="height:400px; display:flex; justify-content:center; align-items:center; background:#eee;">
-  <h1>Welcome to AVR Shop</h1>
-</section>
+  <!-- ===== HOME SECTION ===== -->
+  <section id="homeSection" class="home-section">
+    <h1>Welcome to AVR Shop</h1>
+  </section>
 
-
-
-
-  <!-- ===== PRODUCTS ===== -->
-  <h2 class="section-title">Our Products</h2>
+  <!-- ===== PRODUCTS SECTION ===== -->
+  <h2 class="section-title" id="productsSection">Our Products</h2>
   <div class="products-container" id="productsContainer">
-    
-    <!-- PRODUCT CARD EXAMPLES -->
+
+  <!-- PRODUCT CARD EXAMPLES -->
     <div class="product" data-category="Earphones">
       <img src="https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140" alt="Earphones">
       <h3>Earphones</h3>
@@ -113,24 +110,24 @@
     <p id="noResults" style="text-align:center; margin-top:20px; display:none; color:#555; font-size:1.1rem;">
       No products found!
     </p>
+  
   </div>
 
-  
-   <!-- ===== ABOUT SECTION ===== -->
+  <!-- ===== ABOUT SECTION ===== -->
   <section id="aboutSection">
     <h2>About Us</h2>
-    <p>AVR Shop is your go-to online store for gadgets and smart devices...</p>
+    <p>AVR Shop is your go-to online store for gadgets and smart devices. We provide the latest technology at the best prices with fast delivery and reliable customer service.</p>
   </section>
 
   <!-- ===== CONTACT SECTION ===== -->
-  <section id="contactSection" style="padding:80px 20px; background:#eee; text-align:center;">
+  <section id="contactSection">
     <h2>Contact Us</h2>
-    <p>Email: <a href="mailto:info@avrshop.com">saiphaneendra477@avrshop.com</a></p>
+    <p>Email: <a href="mailto:saiphaneendra477@avrshop.com">saiphaneendra477@avrshop.com</a></p>
     <p>Phone: +91 7661965757</p>
-    <p>Address: rjy , seethanagaram, india</p>
+    <p>Address: rjy , Seethanagaram, India</p>
   </section>
 
-  <!-- ===== CUSTOMER FORM POPUP ===== -->
+  <!-- ===== POPUPS (unchanged) ===== -->
   <div id="customerForm">
     <div class="popup-content">
       <h3>Enter your details</h3>
@@ -143,14 +140,12 @@
     </div>
   </div>
 
-  <!-- ===== MINI CART POPUP ===== -->
   <div id="miniCart" class="popup-content">
     <h3>Your Cart</h3>
     <div id="cartItems"></div>
     <button onclick="checkoutCart()">Checkout</button>
   </div>
 
-  <!-- ===== THANK YOU POPUP ===== -->
   <div id="thankYouMessage">
     <div class="popup-content">
       Thank you for your purchase!<br>Your order has been received. We will contact you soon.
@@ -163,3 +158,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
