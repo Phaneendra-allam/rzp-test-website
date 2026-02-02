@@ -2,6 +2,13 @@
 emailjs.init("NEhltHkKsFoRI6gWB");
 const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
+// ================= CHECK LOGIN =================
+const loggedInUser = localStorage.getItem("userEmail");
+if (!loggedInUser) {
+  alert("You must log in first!");
+  window.location.href = "auth.html";
+}
+
 // ================= PRODUCTS =================
 const products = [
   {name:"Earphones",price:100,img:"https://www.portronics.com/cdn/shop/files/Portronics_Conch_Theta_A_wired_earphones_with_14.2mm_drivers.jpg?v=1747743140"},
@@ -85,10 +92,6 @@ document.getElementById("closeCartBtn").addEventListener("click", () => {
   cartSidebar.classList.remove("show");
 });
 
-function checkout() {
-  alert("Please use Buy Now to pay");
-}
-
 // ================= POPUP =================
 let selectedAmount = 0;
 let selectedProduct = "";
@@ -120,7 +123,15 @@ payButton.addEventListener("click", () => {
   payNow(selectedAmount, selectedProduct, customerName.value, customerNumber.value);
 });
 
+// ================= PAY FUNCTION =================
 function payNow(amount, productName, customerName, customerNumber) {
+  const userEmail = localStorage.getItem("userEmail");
+  if (!userEmail) {
+    alert("You must log in to make a payment!");
+    window.location.href = "auth.html";
+    return;
+  }
+
   const options = {
     key: keyId,
     amount: amount * 100,
@@ -133,10 +144,19 @@ function payNow(amount, productName, customerName, customerNumber) {
         product: productName,
         amount: amount,
         customer_number: customerNumber,
-        payment_id: response.razorpay_payment_id
+        payment_id: response.razorpay_payment_id,
+        user_email: userEmail
       })
-      .then(() => alert("Payment Successful & Email Sent!"))
-      .catch(err => alert("Payment OK, Email Failed"));
+      .then(() => {
+        alert("Payment Successful & Email Sent!");
+        cart = [];
+        updateCart();
+      })
+      .catch(err => {
+        alert("Payment OK, Email Failed");
+        cart = [];
+        updateCart();
+      });
     },
     theme: { color: "#ff6f61" }
   };
@@ -157,45 +177,10 @@ function checkout() {
     return;
   }
 
-  // Calculate total
   let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
   let productNames = cart.map(item => item.name).join(", ");
 
-  // Open customer form with total
   selectedAmount = totalAmount;
   selectedProduct = productNames;
   customerForm.classList.add("show");
-}
-
-// After successful payment, clear cart
-function payNow(amount, productName, customerName, customerNumber) {
-  const options = {
-    key: keyId,
-    amount: amount * 100,
-    currency: "INR",
-    name: "AVR Shop",
-    description: productName,
-    handler: function (response) {
-      emailjs.send("service_2l3l97q", "template_zwe1s48", {
-        name: customerName,
-        product: productName,
-        amount: amount,
-        customer_number: customerNumber,
-        payment_id: response.razorpay_payment_id
-      })
-      .then(() => {
-        alert("Payment Successful & Email Sent!");
-        cart = [];       // clear cart
-        updateCart();    // update cart UI
-      })
-      .catch(err => {
-        alert("Payment OK, Email Failed");
-        cart = [];
-        updateCart();
-      });
-    },
-    theme: { color: "#ff6f61" }
-  };
-
-  new Razorpay(options).open();
 }
