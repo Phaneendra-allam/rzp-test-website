@@ -56,16 +56,14 @@
     document.getElementById('loginForm').classList.remove('hidden');
   }
 
-  // EmailJS function
   function sendEmail(name, email, phone, type){
     emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
       user_name: name,
       user_email: email,
       user_phone: phone,
       action_type: type
-    }).then(() => {
-      console.log('Email sent successfully');
-    }).catch(err => console.error('Email sending failed', err));
+    }).then(() => console.log('Email sent successfully'))
+      .catch(err => console.error('Email sending failed', err));
   }
 
   function signup() {
@@ -83,7 +81,6 @@
     localStorage.setItem('users', JSON.stringify(users));
     localStorage.setItem('currentUser', JSON.stringify({name,email}));
 
-    // Send signup details to your email
     sendEmail(name,email,phone,'Signup');
 
     alert('Signup successful!');
@@ -100,7 +97,6 @@
     if(user){
       localStorage.setItem('currentUser', JSON.stringify({name:user.name,email:user.email}));
 
-      // Send login info to your email
       sendEmail(user.name,user.email,'', 'Login');
 
       alert('Login successful!');
