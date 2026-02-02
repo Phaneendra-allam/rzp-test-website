@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("keyup", () => {
     const term = searchInput.value.toLowerCase();
     products.forEach(prod => {
-      const name = prod.getAttribute("data-name").toLowerCase();
+      const name = prod.querySelector("h3").textContent.toLowerCase();
       prod.style.display = name.includes(term) ? "block" : "none";
     });
   });
