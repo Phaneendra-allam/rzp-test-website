@@ -98,18 +98,20 @@ header {
 
 /* ===== POPUP OVERLAY ===== */
 #customerForm {
-  display: none;            /* hidden by default */
-  position: fixed;          /* fixed to viewport */
-  inset: 0;                 /* top:0 right:0 bottom:0 left:0 */
-  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
   z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* when popup is open */
 #customerForm.show {
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 1;
 }
 
 /* ===== POPUP BOX ===== */
@@ -147,6 +149,7 @@ header {
     grid-template-columns: 1fr; /* 1 per row on mobile */
   }
 }
+
 
 
 
