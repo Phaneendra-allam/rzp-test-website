@@ -1,7 +1,7 @@
 // Initialize EmailJS
-emailjs.init("NEhltHkKsFoRI6gWB"); // Replace with your EmailJS Public Key
+emailjs.init("NEhltHkKsFoRI6gWB"); // Your public key
 
-const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Replace with your Razorpay test key
+const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Razorpay test key
 
 let selectedProduct = "";
 let selectedAmount = 0;
@@ -18,17 +18,20 @@ function closeCustomerForm() {
   document.getElementById("customerNumber").value = "";
 }
 
-document.getElementById("payButton").addEventListener("click", () => {
-  const customerName = document.getElementById("customerName").value.trim();
-  const customerNumber = document.getElementById("customerNumber").value.trim();
+// ✅ WAIT until HTML is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("payButton").addEventListener("click", () => {
+    const customerName = document.getElementById("customerName").value.trim();
+    const customerNumber = document.getElementById("customerNumber").value.trim();
 
-  if (!customerName || !customerNumber) {
-    alert("Please enter both Name and Phone Number!");
-    return;
-  }
+    if (!customerName || !customerNumber) {
+      alert("Please enter both Name and Phone Number!");
+      return;
+    }
 
-  closeCustomerForm();
-  payNow(selectedAmount, selectedProduct, customerName, customerNumber);
+    closeCustomerForm();
+    payNow(selectedAmount, selectedProduct, customerName, customerNumber);
+  });
 });
 
 function payNow(amount, productName, customerName, customerNumber) {
@@ -38,10 +41,9 @@ function payNow(amount, productName, customerName, customerNumber) {
     currency: "INR",
     name: "AVR Shop",
     description: productName,
-    handler: function(response) {
+    handler: function (response) {
       console.log("Payment ID:", response.razorpay_payment_id);
 
-      // Send email via EmailJS
       emailjs.send("service_2l3l97q", "template_zwe1s48", {
         name: customerName,
         product: productName,
@@ -51,7 +53,7 @@ function payNow(amount, productName, customerName, customerNumber) {
       })
       .then(() => alert("Payment Successful & Email Sent!"))
       .catch((error) => {
-        alert("Payment Successful, but Email Failed: " + error.text);
+        alert("Payment Successful, but Email Failed");
         console.error("EmailJS Error:", error);
       });
     },
