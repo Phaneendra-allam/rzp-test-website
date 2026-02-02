@@ -6,23 +6,24 @@ const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Razorpay test key
 let selectedProduct = "";
 let selectedAmount = 0;
 
-// OPEN popup (only when Buy Now clicked)
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
   document.getElementById("customerForm").classList.add("show");
 }
 
-// CLOSE popup
 function closeCustomerForm() {
   document.getElementById("customerForm").classList.remove("show");
   document.getElementById("customerName").value = "";
   document.getElementById("customerNumber").value = "";
 }
 
-// Wait until DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("payButton").addEventListener("click", function () {
+  const popup = document.getElementById("customerForm");
+  const payButton = document.getElementById("payButton");
+
+  // Pay button click
+  payButton.addEventListener("click", function () {
     const customerName = document.getElementById("customerName").value.trim();
     const customerNumber = document.getElementById("customerNumber").value.trim();
 
@@ -33,6 +34,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     closeCustomerForm();
     payNow(selectedAmount, selectedProduct, customerName, customerNumber);
+  });
+
+  // Close popup if clicking outside content box
+  popup.addEventListener("click", function(e) {
+    if (e.target === popup) {
+      closeCustomerForm();
+    }
   });
 });
 
