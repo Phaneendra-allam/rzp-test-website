@@ -1,12 +1,14 @@
-// Initialize EmailJS
+// ===== INIT EMAILJS =====
 emailjs.init("NEhltHkKsFoRI6gWB");
 
+// ===== RAZORPAY KEY =====
 const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
+// ===== GLOBAL VARIABLES =====
 let selectedProduct = "";
 let selectedAmount = 0;
 
-// OPEN & CLOSE CUSTOMER FORM
+// ===== OPEN & CLOSE CUSTOMER FORM =====
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
@@ -20,17 +22,17 @@ function closeCustomerForm() {
   document.getElementById("customerNumber").value = "";
 }
 
-// THANK YOU POPUP
+// ===== SHOW THANK YOU MESSAGE =====
 function showThankYou() {
   const msg = document.getElementById("thankYouMessage");
   msg.classList.add("show");
   setTimeout(() => msg.classList.remove("show"), 3000);
 }
 
-// DOM CONTENT LOADED
+// ===== DOM CONTENT LOADED =====
 document.addEventListener("DOMContentLoaded", () => {
 
-  // PAY BUTTON
+  // PAY BUTTON CLICK
   document.getElementById("payButton").addEventListener("click", () => {
     const name = document.getElementById("customerName").value.trim();
     const number = document.getElementById("customerNumber").value.trim();
@@ -44,34 +46,42 @@ document.addEventListener("DOMContentLoaded", () => {
     payNow(selectedAmount, selectedProduct, name, number);
   });
 
-  // SEARCH FUNCTIONALITY WITH ANIMATION
+  // ===== SEARCH FUNCTIONALITY =====
   const searchInput = document.getElementById("searchInput");
   const products = document.querySelectorAll(".product");
+  const noResults = document.getElementById("noResults");
 
   searchInput.addEventListener("keyup", () => {
     const term = searchInput.value.toLowerCase();
+    let anyVisible = false;
+
     products.forEach(prod => {
       const name = prod.querySelector("h3").textContent.toLowerCase();
       if (name.includes(term)) {
         prod.classList.remove("hide");
+        anyVisible = true;
       } else {
         prod.classList.add("hide");
       }
     });
+
+    // Show "No products found" message
+    noResults.style.display = anyVisible ? "none" : "block";
   });
 });
 
-// RAZORPAY PAYMENT FUNCTION
+// ===== RAZORPAY PAYMENT FUNCTION =====
 function payNow(amount, productName, customerName, customerNumber) {
   const options = {
     key: keyId,
-    amount: amount * 100,
+    amount: amount * 100, // in paise
     currency: "INR",
     name: "AVR Shop",
     description: productName,
     handler: function(response) {
       console.log("Payment ID:", response.razorpay_payment_id);
 
+      // Send order details via EmailJS
       emailjs.send("service_2l3l97q", "template_zwe1s48", {
         name: customerName,
         product: productName,
