@@ -1,4 +1,3 @@
-// ================= EMAILJS & RAZORPAY =================
 emailjs.init("NEhltHkKsFoRI6gWB");
 const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
@@ -29,9 +28,8 @@ products.forEach(p => {
 });
 
 // ================= SEARCH =================
-const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("input", () => {
-  const value = searchInput.value.toLowerCase();
+document.getElementById("searchInput").addEventListener("input", () => {
+  const value = document.getElementById("searchInput").value.toLowerCase();
   document.querySelectorAll(".product").forEach(p => {
     p.style.display = p.dataset.name.includes(value) ? "block" : "none";
   });
@@ -42,10 +40,12 @@ const cartSidebar = document.getElementById("cartSidebar");
 const cartItems = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
 const cartCount = document.getElementById("cartCount");
-
 let cart = [];
 
+// ADD TO CART WITH LOGIN CHECK
 function addToCart(name, price) {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if(!currentUser){ alert("Login to add items to cart"); window.location.href="login.html"; return; }
   cart.push({name, price});
   updateCart();
 }
@@ -53,9 +53,8 @@ function addToCart(name, price) {
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
-
-  cart.forEach((item, index) => {
-    total += item.price;
+  cart.forEach((item,index)=>{
+    total+=item.price;
     cartItems.innerHTML += `
       <div class="cart-item">
         <span>${item.name} ₹${item.price}</span>
@@ -66,136 +65,77 @@ function updateCart() {
       </div>
     `;
   });
-
   cartTotal.innerText = total;
   cartCount.innerText = cart.length;
 }
 
-function removeItem(i) {
-  cart.splice(i, 1);
-  updateCart();
-}
-
-function toggleCart() {
-  cartSidebar.classList.toggle("show");
-}
-
-// Close cart button
-document.getElementById("closeCartBtn").addEventListener("click", () => {
-  cartSidebar.classList.remove("show");
-});
-
-function checkout() {
-  alert("Please use Buy Now to pay");
-}
+function removeItem(i){ cart.splice(i,1); updateCart(); }
+function toggleCart(){ cartSidebar.classList.toggle("show"); }
+document.getElementById("closeCartBtn").addEventListener("click", ()=>cartSidebar.classList.remove("show"));
 
 // ================= POPUP =================
-let selectedAmount = 0;
-let selectedProduct = "";
+let selectedAmount=0, selectedProduct="";
+const customerForm=document.getElementById("customerForm");
+const customerName=document.getElementById("customerName");
+const customerNumber=document.getElementById("customerNumber");
+const payButton=document.getElementById("payButton");
 
-const customerForm = document.getElementById("customerForm");
-const customerName = document.getElementById("customerName");
-const customerNumber = document.getElementById("customerNumber");
-const payButton = document.getElementById("payButton");
+function openCustomerForm(amount, product){
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if(!currentUser){ alert("Login to buy products"); window.location.href="login.html"; return; }
 
-function openCustomerForm(amount, product) {
-  selectedAmount = amount;
-  selectedProduct = product;
+  selectedAmount=amount;
+  selectedProduct=product;
   customerForm.classList.add("show");
 }
 
-function closeCustomerForm() {
+function closeCustomerForm(){
   customerForm.classList.remove("show");
-  customerName.value = "";
-  customerNumber.value = "";
+  customerName.value="";
+  customerNumber.value="";
 }
 
 // ================= PAY =================
-payButton.addEventListener("click", () => {
-  if (!customerName.value || !customerNumber.value) {
-    alert("Please fill all details");
-    return;
-  }
+payButton.addEventListener("click",()=>{
+  if(!customerName.value || !customerNumber.value){ alert("Please fill all details"); return; }
   closeCustomerForm();
   payNow(selectedAmount, selectedProduct, customerName.value, customerNumber.value);
 });
 
-function payNow(amount, productName, customerName, customerNumber) {
-  const options = {
-    key: keyId,
-    amount: amount * 100,
-    currency: "INR",
-    name: "AVR Shop",
-    description: productName,
-    handler: function (response) {
-      emailjs.send("service_2l3l97q", "template_zwe1s48", {
-        name: customerName,
-        product: productName,
-        amount: amount,
-        customer_number: customerNumber,
-        payment_id: response.razorpay_payment_id
-      })
-      .then(() => alert("Payment Successful & Email Sent!"))
-      .catch(err => alert("Payment OK, Email Failed"));
-    },
-    theme: { color: "#ff6f61" }
-  };
-
-  new Razorpay(options).open();
-}
-
-// ================= PAY SINGLE CART ITEM =================
-function paySingleItem(index) {
-  const item = cart[index];
-  openCustomerForm(item.price, item.name);
-}
-
-// ================= PAY ALL CART ITEMS =================
-function checkout() {
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  // Calculate total
-  let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
-  let productNames = cart.map(item => item.name).join(", ");
-
-  // Open customer form with total
-  selectedAmount = totalAmount;
-  selectedProduct = productNames;
-  customerForm.classList.add("show");
-}
-
-// After successful payment, clear cart
-function payNow(amount, productName, customerName, customerNumber) {
-  const options = {
-    key: keyId,
-    amount: amount * 100,
-    currency: "INR",
-    name: "AVR Shop",
-    description: productName,
-    handler: function (response) {
-      emailjs.send("service_2l3l97q", "template_zwe1s48", {
-        name: customerName,
-        product: productName,
-        amount: amount,
-        customer_number: customerNumber,
-        payment_id: response.razorpay_payment_id
-      })
-      .then(() => {
+function payNow(amount, productName, customerName, customerNumber){
+  const options={
+    key:keyId,
+    amount:amount*100,
+    currency:"INR",
+    name:"AVR Shop",
+    description:productName,
+    handler:function(response){
+      emailjs.send("service_2l3l97q","template_zwe1s48",{
+        name:customerName,
+        product:productName,
+        amount:amount,
+        customer_number:customerNumber,
+        payment_id:response.razorpay_payment_id
+      }).then(()=>{
         alert("Payment Successful & Email Sent!");
-        cart = [];       // clear cart
-        updateCart();    // update cart UI
-      })
-      .catch(err => {
+        cart=[]; updateCart();
+      }).catch(err=>{
         alert("Payment OK, Email Failed");
-        cart = [];
-        updateCart();
+        cart=[]; updateCart();
       });
     },
-    theme: { color: "#ff6f61" }
+    theme:{color:"#ff6f61"}
   };
-
   new Razorpay(options).open();
+}
+
+function paySingleItem(index){ openCustomerForm(cart[index].price, cart[index].name); }
+
+function checkout(){
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if(!currentUser){ alert("Login to checkout"); window.location.href="login.html"; return; }
+  if(cart.length===0){ alert("Your cart is empty!"); return; }
+  selectedAmount=cart.reduce((sum,i)=>sum+i.price,0);
+  selectedProduct=cart.map(i=>i.name).join(",");
+  customerForm.classList.add("show");
 }
