@@ -65,10 +65,10 @@ function updateCart() {
     total += item.price;
     cartItems.innerHTML += `
       <div class="cart-item">
-        ${item.name} ₹${item.price}
-        <div>
-          <button onclick="removeItem(${index})">❌</button>
-          <button onclick="paySingleItem(${index})">💳 Pay</button>
+        <span>${item.name} ₹${item.price}</span>
+        <div class="cart-actions">
+          <button class="cancel-btn" onclick="removeItem(${index})">❌</button>
+          <button class="pay-btn" onclick="paySingleItem(${index})">💳 Pay</button>
         </div>
       </div>
     `;
@@ -77,6 +77,7 @@ function updateCart() {
   cartTotal.innerText = total;
   cartCount.innerText = cart.length;
 }
+
 
 function removeItem(i) {
   cart.splice(i, 1);
@@ -154,3 +155,4 @@ function payNow(amount, productName, customerName, customerNumber) {
   };
   new Razorpay(options).open();
 }
+
