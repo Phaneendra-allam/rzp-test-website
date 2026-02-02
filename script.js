@@ -1,4 +1,4 @@
-// ================= INITIALIZE =================
+// ================= EMAILJS & RAZORPAY =================
 emailjs.init("NEhltHkKsFoRI6gWB");
 const keyId = "rzp_test_S9x5QAAxXFGWvK";
 
@@ -14,19 +14,8 @@ const products = [
   {name:"Gaming Console",price:25000,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdgTv3o0vrUu5yV5-hLEpKSlwIHJltQzNP8A&s"}
 ];
 
-// ================= DOM ELEMENTS =================
-const container = document.getElementById("productsContainer");
-const searchInput = document.getElementById("searchInput");
-const cartSidebar = document.getElementById("cartSidebar");
-const cartItems = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
-const cartCount = document.getElementById("cartCount");
-const customerForm = document.getElementById("customerForm");
-const customerName = document.getElementById("customerName");
-const customerNumber = document.getElementById("customerNumber");
-const payButton = document.getElementById("payButton");
-
 // ================= RENDER PRODUCTS =================
+const container = document.getElementById("productsContainer");
 products.forEach(p => {
   container.innerHTML += `
     <div class="product" data-name="${p.name.toLowerCase()}">
@@ -40,6 +29,7 @@ products.forEach(p => {
 });
 
 // ================= SEARCH =================
+const searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", () => {
   const value = searchInput.value.toLowerCase();
   document.querySelectorAll(".product").forEach(p => {
@@ -48,9 +38,12 @@ searchInput.addEventListener("input", () => {
 });
 
 // ================= CART =================
+const cartSidebar = document.getElementById("cartSidebar");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+const cartCount = document.getElementById("cartCount");
+
 let cart = [];
-let selectedAmount = 0;
-let selectedProduct = "";
 
 function addToCart(name, price) {
   cart.push({name, price});
@@ -78,7 +71,6 @@ function updateCart() {
   cartCount.innerText = cart.length;
 }
 
-
 function removeItem(i) {
   cart.splice(i, 1);
   updateCart();
@@ -88,21 +80,24 @@ function toggleCart() {
   cartSidebar.classList.toggle("show");
 }
 
-function payCart() {
-  if (cart.length === 0) {
-    alert("Cart is empty!");
-    return;
-  }
-  let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
-  openCustomerForm(totalAmount, "Cart Items");
+// Close cart button
+document.getElementById("closeCartBtn").addEventListener("click", () => {
+  cartSidebar.classList.remove("show");
+});
+
+function checkout() {
+  alert("Please use Buy Now to pay");
 }
 
-function paySingleItem(index) {
-  let item = cart[index];
-  openCustomerForm(item.price, item.name);
-}
+// ================= POPUP =================
+let selectedAmount = 0;
+let selectedProduct = "";
 
-// ================= CUSTOMER POPUP =================
+const customerForm = document.getElementById("customerForm");
+const customerName = document.getElementById("customerName");
+const customerNumber = document.getElementById("customerNumber");
+const payButton = document.getElementById("payButton");
+
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
@@ -142,17 +137,15 @@ function payNow(amount, productName, customerName, customerNumber) {
       })
       .then(() => alert("Payment Successful & Email Sent!"))
       .catch(err => alert("Payment OK, Email Failed"));
-
-      // Remove items from cart if cart payment
-      if (productName === "Cart Items") {
-        cart = [];
-      } else {
-        cart = cart.filter(item => item.name !== productName);
-      }
-      updateCart();
     },
     theme: { color: "#ff6f61" }
   };
+
   new Razorpay(options).open();
 }
 
+// ================= PAY SINGLE CART ITEM =================
+function paySingleItem(index) {
+  const item = cart[index];
+  openCustomerForm(item.price, item.name);
+}
