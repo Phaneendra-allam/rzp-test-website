@@ -149,3 +149,53 @@ function paySingleItem(index) {
   const item = cart[index];
   openCustomerForm(item.price, item.name);
 }
+
+// ================= PAY ALL CART ITEMS =================
+function checkout() {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  // Calculate total
+  let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
+  let productNames = cart.map(item => item.name).join(", ");
+
+  // Open customer form with total
+  selectedAmount = totalAmount;
+  selectedProduct = productNames;
+  customerForm.classList.add("show");
+}
+
+// After successful payment, clear cart
+function payNow(amount, productName, customerName, customerNumber) {
+  const options = {
+    key: keyId,
+    amount: amount * 100,
+    currency: "INR",
+    name: "AVR Shop",
+    description: productName,
+    handler: function (response) {
+      emailjs.send("service_2l3l97q", "template_zwe1s48", {
+        name: customerName,
+        product: productName,
+        amount: amount,
+        customer_number: customerNumber,
+        payment_id: response.razorpay_payment_id
+      })
+      .then(() => {
+        alert("Payment Successful & Email Sent!");
+        cart = [];       // clear cart
+        updateCart();    // update cart UI
+      })
+      .catch(err => {
+        alert("Payment OK, Email Failed");
+        cart = [];
+        updateCart();
+      });
+    },
+    theme: { color: "#ff6f61" }
+  };
+
+  new Razorpay(options).open();
+}
