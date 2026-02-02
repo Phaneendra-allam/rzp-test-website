@@ -31,15 +31,12 @@ header { background: #000; padding: 30px 0; text-align: center; }
 
 /* ===== POPUP OVERLAY ===== */
 #customerForm, #thankYouMessage {
-  display: none;
+  display: none; /* hidden by default */
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.6);
   z-index: 9999;
-
-  /* CENTER THE BOX */
-  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -47,14 +44,14 @@ header { background: #000; padding: 30px 0; text-align: center; }
 /* ===== POPUP BOX ===== */
 .popup-content {
   background: #fff;
-  padding: 25px 20px;
+  padding: 20px;
   width: 320px;
   border-radius: 8px;
   text-align: center;
   animation: popupFade 0.3s ease;
 }
 
-/* ===== THANK YOU POPUP ===== */
+/* Thank you popup special colors */
 #thankYouMessage .popup-content {
   background: #d4edda;
   color: #155724;
@@ -62,10 +59,7 @@ header { background: #000; padding: 30px 0; text-align: center; }
 }
 
 /* ===== POPUP ANIMATION ===== */
-@keyframes popupFade {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
+@keyframes popupFade { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) { .products-container { grid-template-columns: repeat(2, 1fr); } }
