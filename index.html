@@ -8,16 +8,6 @@
 </head>
 <body>
 
-<!-- ====== LOGIN PROTECTION ====== -->
-<script>
-  // Check if user is logged in
-  const userEmail = localStorage.getItem("userEmail");
-  if (!userEmail) {
-    // Not logged in → redirect to login/signup page
-    window.location.href = "auth.html";
-  }
-</script>
-
 <!-- NAVBAR -->
 <nav class="navbar">
   <h1 class="logo">AVR Shop</h1>
@@ -26,33 +16,11 @@
   <button id="logoutBtn" class="cart-btn">Logout</button>
 </nav>
 
-<script>
-const logoutBtn = document.getElementById("logoutBtn");
-logoutBtn.addEventListener("click", () => {
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("userName");
-  localStorage.removeItem("userPassword");
-  alert("Logged out successfully!");
-  window.location.href = "auth.html";
-});
-
-// Redirect if not logged in
-if (!localStorage.getItem("userEmail")) {
-  window.location.href = "auth.html";
-}
-</script>
-
-  
-<body>
-  <!-- Other content -->
-  <main class="container">
-    <h2 class="section-title">Our Products</h2>
-    <div class="products-container" id="productsContainer"></div>
-  </main>
-
-  <!-- JS scripts -->
-  <script src="script.js"></script>
-</body>
+<!-- PRODUCTS -->
+<main class="container">
+  <h2 class="section-title">Our Products</h2>
+  <div class="products-container" id="productsContainer"></div>
+</main>
 
 <!-- ABOUT -->
 <section id="aboutSection">
@@ -91,7 +59,7 @@ if (!localStorage.getItem("userEmail")) {
   </div>
 </div>
 
-<!-- REQUIRED SCRIPTS -->
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="script.js"></script>
@@ -100,9 +68,11 @@ if (!localStorage.getItem("userEmail")) {
   // ===== LOGOUT FUNCTION =====
   const logoutBtn = document.getElementById("logoutBtn");
   logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("userEmail"); // clear login
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userPassword");
     alert("Logged out successfully!");
-    window.location.href = "auth.html"; // redirect to login/signup
+    window.location.href = "auth.html";
   });
 </script>
 
