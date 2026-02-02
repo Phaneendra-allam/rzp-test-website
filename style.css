@@ -96,36 +96,44 @@ header {
   background: #0056b3;
 }
 
-/* ===== POPUP ===== */
+/* ===== POPUP OVERLAY ===== */
 #customerForm {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
+  display: none;            /* hidden by default */
+  position: fixed;          /* FIXED to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+
+  /* CENTER CONTENT */
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
+/* ===== POPUP BOX ===== */
 .popup-content {
   background: #fff;
   padding: 20px;
-  width: 300px;
+  width: 320px;
   border-radius: 8px;
   text-align: center;
+  animation: popupFade 0.3s ease;
 }
 
-.popup-content input {
-  width: 100%;
-  margin: 8px 0;
-  padding: 8px;
+@keyframes popupFade {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.popup-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
@@ -139,4 +147,5 @@ header {
     grid-template-columns: 1fr; /* 1 per row on mobile */
   }
 }
+
 
