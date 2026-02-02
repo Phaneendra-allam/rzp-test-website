@@ -6,6 +6,7 @@ const keyId = "rzp_test_S9x5QAAxXFGWvK";
 let selectedProduct = "";
 let selectedAmount = 0;
 
+// OPEN & CLOSE CUSTOMER FORM
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
@@ -19,13 +20,16 @@ function closeCustomerForm() {
   document.getElementById("customerNumber").value = "";
 }
 
+// THANK YOU POPUP
 function showThankYou() {
   const msg = document.getElementById("thankYouMessage");
   msg.classList.add("show");
   setTimeout(() => msg.classList.remove("show"), 3000);
 }
 
+// DOM CONTENT LOADED
 document.addEventListener("DOMContentLoaded", () => {
+
   // PAY BUTTON
   document.getElementById("payButton").addEventListener("click", () => {
     const name = document.getElementById("customerName").value.trim();
@@ -40,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     payNow(selectedAmount, selectedProduct, name, number);
   });
 
-  // SEARCH FUNCTIONALITY
+  // SEARCH FUNCTIONALITY WITH ANIMATION
   const searchInput = document.getElementById("searchInput");
   const products = document.querySelectorAll(".product");
 
@@ -48,11 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const term = searchInput.value.toLowerCase();
     products.forEach(prod => {
       const name = prod.querySelector("h3").textContent.toLowerCase();
-      prod.style.display = name.includes(term) ? "block" : "none";
+      if (name.includes(term)) {
+        prod.classList.remove("hide");
+      } else {
+        prod.classList.add("hide");
+      }
     });
   });
 });
 
+// RAZORPAY PAYMENT FUNCTION
 function payNow(amount, productName, customerName, customerNumber) {
   const options = {
     key: keyId,
