@@ -13,34 +13,32 @@ body {
 
 /* ===== HEADER ===== */
 header {
-  background: #000; /* black background */
-  padding: 30px 0;
+  background: #000;
+  padding: 20px 0;
   text-align: center;
+  color: #fff;
+}
+
+header nav a {
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
 }
 
 .shop-name {
-  color: #fff;      /* white letters */
   font-size: 3rem;
   font-weight: bold;
   letter-spacing: 4px;
 }
 
-/* ===== SECTION TITLE ===== */
-.section-title {
-  text-align: center;
-  margin: 30px 0;
-  font-size: 1.8rem; /* medium letters */
-  color: #333;
-}
-
 /* ===== PRODUCTS GRID ===== */
 .products-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 products per row */
+  grid-template-columns: repeat(4, 1fr);
   gap: 25px;
   max-width: 1200px;
-  margin: auto;
-  padding: 0 20px 50px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 /* ===== PRODUCT CARD ===== */
@@ -58,7 +56,6 @@ header {
   box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
-/* ===== PRODUCT IMAGE ===== */
 .product img {
   width: 100%;
   height: 180px;
@@ -67,8 +64,7 @@ header {
   margin-bottom: 10px;
 }
 
-/* ===== PRODUCT TEXT ===== */
-.product h3 {
+.product h2 {
   font-size: 1.2rem;
   margin-bottom: 5px;
   color: #222;
@@ -80,7 +76,6 @@ header {
   margin-bottom: 12px;
 }
 
-/* ===== BUTTON ===== */
 .product button {
   width: 100%;
   padding: 10px;
@@ -96,28 +91,27 @@ header {
   background: #0056b3;
 }
 
-/* ===== POPUP OVERLAY ===== */
+/* ===== POPUP ===== */
 #customerForm {
   display: none;
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0,0,0,0.6);
   z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  justify-content: center;
+  align-items: center;
 }
 
 #customerForm.show {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 1;
 }
 
-/* ===== POPUP BOX ===== */
 .popup-content {
   background: #fff;
-  padding: 20px;
+  padding: 25px;
   width: 320px;
   border-radius: 8px;
   text-align: center;
@@ -125,31 +119,70 @@ header {
 }
 
 @keyframes popupFade {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
+#customerForm input {
+  width: 90%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
+.popup-buttons button {
+  margin: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+/* ===== THANK YOU MESSAGE ===== */
+#thankYouMessage {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background: #d4edda;
+  color: #155724;
+  margin: 20px auto;
+  width: 80%;
+  border-radius: 8px;
+}
+
+/* ===== BACK TO TOP ===== */
+#backToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: none;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 25px 10px;
+}
+
+footer .social a {
+  margin: 0 10px;
+  color: #fff;
+  text-decoration: none;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
-  .products-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablet */
-  }
+  .products-container { grid-template-columns: repeat(2,1fr); }
 }
 
 @media (max-width: 600px) {
-  .products-container {
-    grid-template-columns: 1fr; /* 1 per row on mobile */
-  }
+  .products-container { grid-template-columns: 1fr; }
 }
-
-
-
-
