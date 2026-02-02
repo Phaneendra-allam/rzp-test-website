@@ -22,106 +22,124 @@ function closeCustomerForm() {
   document.getElementById("customerNumber").value = "";
 }
 
-// ===== SHOW THANK YOU MESSAGE =====
+// ===== SHOW THANK YOU =====
 function showThankYou() {
-  const msg = document.getElementById("thankYouMessage");
-  msg.classList.add("show");
-  setTimeout(() => msg.classList.remove("show"), 3000);
+  alert("Thank you for your purchase!");
 }
 
-// ===== DOM CONTENT LOADED =====
+// ===== PAY =====
 document.addEventListener("DOMContentLoaded", () => {
-  // PAY BUTTON CLICK
-  document.getElementById("payButton").addEventListener("click", () => {
-    const name = document.getElementById("customerName").value.trim();
-    const number = document.getElementById("customerNumber").value.trim();
-    if (!name || !number) { alert("Please enter both Name and Phone Number!"); return; }
-    closeCustomerForm();
-    payNow(selectedAmount, selectedProduct, name, number);
-  });
+  const payBtn = document.getElementById("payButton");
+  if(payBtn){
+    payBtn.addEventListener("click", () => {
+      const name = document.getElementById("customerName").value.trim();
+      const number = document.getElementById("customerNumber").value.trim();
+      if(!name || !number){ alert("Enter name and phone!"); return; }
+      closeCustomerForm();
+      payNow(selectedAmount, selectedProduct, name, number);
+    });
+  }
 
-  // ===== SEARCH FUNCTIONALITY =====
+  // SEARCH FILTER
   const searchInput = document.getElementById("searchInput");
   const products = document.querySelectorAll(".product");
   const noResults = document.getElementById("noResults");
-
-  searchInput.addEventListener("keyup", () => {
-    const term = searchInput.value.toLowerCase();
-    let anyVisible = false;
-    products.forEach(prod => {
-      const name = prod.querySelector("h3").textContent.toLowerCase();
-      if (name.includes(term)) { prod.classList.remove("hide"); anyVisible = true; }
-      else { prod.classList.add("hide"); }
+  if(searchInput){
+    searchInput.addEventListener("keyup", () => {
+      const term = searchInput.value.toLowerCase();
+      let anyVisible = false;
+      products.forEach(prod => {
+        const name = prod.querySelector("h3").textContent.toLowerCase();
+        if(name.includes(term)){ prod.classList.remove("hide"); anyVisible = true; }
+        else { prod.classList.add("hide"); }
+      });
+      noResults.style.display = anyVisible ? "none":"block";
     });
-    noResults.style.display = anyVisible ? "none" : "block";
-  });
+  }
 });
 
-// ===== RAZORPAY PAYMENT FUNCTION =====
-function payNow(amount, productName, customerName, customerNumber) {
+// ===== RAZORPAY PAY =====
+function payNow(amount, productName, customerName, customerNumber){
   const options = {
     key: keyId,
-    amount: amount * 100, // in paise
-    currency: "INR",
-    name: "AVR Shop",
+    amount: amount*100,
+    currency:"INR",
+    name:"AVR Shop",
     description: productName,
-    handler: function(response) {
-      console.log("Payment ID:", response.razorpay_payment_id);
-      emailjs.send("service_2l3l97q", "template_zwe1s48", {
-        name: customerName,
-        product: productName,
-        amount: amount,
-        customer_number: customerNumber,
+    handler:function(response){
+      emailjs.send("service_2l3l97q","template_zwe1s48",{
+        name:customerName,
+        product:productName,
+        amount:amount,
+        customer_number:customerNumber,
         payment_id: response.razorpay_payment_id
-      }).then(() => showThankYou()).catch(() => showThankYou());
+      }).then(()=>showThankYou())
+        .catch(()=>showThankYou());
     },
-    theme: { color: "#ff6f61" }
+    theme:{color:"#ff6f61"}
   };
   const rzp = new Razorpay(options);
   rzp.open();
 }
 
 // ===== CART SYSTEM =====
-function addToCart(productName, amount) {
-  const item = cart.find(p => p.name === productName);
-  if (item) item.qty++;
-  else cart.push({ name: productName, price: amount, qty: 1 });
+function addToCart(productName, amount){
+  const item = cart.find(p=>p.name===productName);
+  if(item) item.qty++;
+  else cart.push({name:productName, price:amount, qty:1});
   updateCartCount();
 }
 
-function updateCartCount() {
-  document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+function updateCartCount(){
+  const countElem = document.getElementById('cartCount');
+  if(countElem) countElem.textContent = cart.reduce((sum,i)=>sum+i.qty,0);
 }
 
-function toggleCart() {
-  const cartPopup = document.getElementById('miniCart');
-  cartPopup.classList.toggle('show');
+function toggleCart(){
+  const mini = document.getElementById('miniCart');
+  if(mini) mini.classList.toggle('show');
   displayCartItems();
 }
 
-function displayCartItems() {
+function displayCartItems(){
   const cartItems = document.getElementById('cartItems');
+  if(!cartItems) return;
   cartItems.innerHTML = '';
-  cart.forEach(item => {
-    cartItems.innerHTML += `<p>${item.name} x ${item.qty} - ₹${item.price * item.qty}</p>`;
+  cart.forEach(item=>{
+    cartItems.innerHTML += `<p>${item.name} x ${item.qty} - ₹${item.price*item.qty}</p>`;
   });
 }
 
-function checkoutCart() {
-  cart.forEach(item => payNow(item.price * item.qty, item.name, "Customer", "0000000000"));
+function checkoutCart(){
+  cart.forEach(item => payNow(item.price*item.qty, item.name, "Customer","0000000000"));
   cart = [];
   updateCartCount();
   toggleCart();
 }
 
 // ===== CATEGORY FILTER =====
-function filterCategory(category) {
+function filterCategory(category){
   const products = document.querySelectorAll(".product");
-  products.forEach(prod => {
-    const prodCategory = prod.dataset.category;
-    if (category === 'all' || category === prodCategory || 
-       (category === 'Smart Devices' && ['Smartphone','Smartwatch','Wireless Buds','Laptop','Bluetooth Speaker','Gaming Console'].includes(prod.querySelector('h3').textContent)) ) {
+  products.forEach(prod=>{
+    const cat = prod.dataset.category || "";
+    const name = prod.querySelector("h3").textContent;
+    if(category==='all' || category===cat ||
+       (category==='Smart Devices' && ['Earphones','Wireless Buds','Smartphone','Smartwatch','Laptop','Bluetooth Speaker','Gaming Console'].includes(name))){
       prod.classList.remove('hide');
-    } else { prod.classList.add('hide'); }
+    }else prod.classList.add('hide');
   });
 }
+
+// ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburgerBtn');
+const navMenu = document.getElementById('navMenu');
+hamburger.addEventListener('click',()=>{
+  hamburger.classList.toggle('active');
+  navMenu.classList.toggle('show');
+});
+document.addEventListener('click',(e)=>{
+  if(!navMenu.contains(e.target) && !hamburger.contains(e.target)){
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('show');
+  }
+});
