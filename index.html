@@ -8,15 +8,11 @@
 </head>
 <body>
 
-<!-- WELCOME MESSAGE -->
-<div id="welcomeMsg" style="text-align:center; margin:10px 0; font-weight:bold; color:#ff6f61;"></div>
-
 <!-- NAVBAR -->
 <nav class="navbar">
   <h1 class="logo">AVR Shop</h1>
   <input type="text" id="searchInput" placeholder="Search products...">
   <button class="cart-btn" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
-  <button id="logoutBtn">Logout</button>
 </nav>
 
 <!-- PRODUCTS -->
@@ -62,8 +58,10 @@
   </div>
 </div>
 
+<!-- REQUIRED SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
