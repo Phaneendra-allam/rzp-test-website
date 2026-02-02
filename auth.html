@@ -26,9 +26,10 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
   </span>
 </div>
 
+<!-- EMAILJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("NEhltHkKsFoRI6gWB"); // your EmailJS user ID
+emailjs.init("NEhltHkKsFoRI6gWB"); // EmailJS user ID
 
 const formTitle = document.getElementById("formTitle");
 const nameField = document.getElementById("nameField");
@@ -67,24 +68,51 @@ submitBtn.addEventListener("click", () => {
     return;
   }
 
-  if (!isLogin) {
-    // Signup: save details in localStorage (demo only)
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  if (isLogin) {
+    // LOGIN
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) { alert("Invalid email or password!"); return; }
+
+    // Save logged-in user info
+    localStorage.setItem("userName", user.name);
+    localStorage.setItem("userEmail", user.email);
+    localStorage.setItem("userPassword", user.password);
+
+    emailjs.send("service_2l3l97q", "template_zwe1s48", {
+      type: "Login",
+      user_name: user.name,
+      user_email: user.email
+    }).then(() => {
+      alert("Login successful!");
+      window.location.href = "index.html";
+    }).catch(err => alert("Email sending failed: " + err));
+
+  } else {
+    // SIGNUP
+    if (users.find(u => u.email === email)) {
+      alert("Email already registered. Please login.");
+      return;
+    }
+
+    users.push({ name, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Save logged-in user info
     localStorage.setItem("userName", name);
     localStorage.setItem("userEmail", email);
     localStorage.setItem("userPassword", password);
-  }
 
-  const templateParams = isLogin
-    ? { type: "Login", user_email: email, user_password: password }
-    : { type: "Signup", user_name: name, user_email: email, user_password: password };
-
-  emailjs.send("service_2l3l97q", "template_zwe1s48", templateParams)
-    .then(() => {
-      alert((isLogin ? "Login" : "Signup") + " successful! Details sent to email.");
-      localStorage.setItem("userEmail", email);
+    emailjs.send("service_2l3l97q", "template_zwe1s48", {
+      type: "Signup",
+      user_name: name,
+      user_email: email
+    }).then(() => {
+      alert("Signup successful!");
       window.location.href = "index.html";
-    })
-    .catch(err => alert("Email sending failed: " + err));
+    }).catch(err => alert("Email sending failed: " + err));
+  }
 });
 </script>
 </body>
