@@ -8,38 +8,35 @@
 </head>
 <body>
 
+<div class="page-container">
+
 <!-- HEADER -->
 <header>
   <div class="shop-name">AVR Shop</div>
-  <div class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" role="button" tabindex="0">
+  <div class="hamburger" id="hamburgerBtn">
     <div></div><div></div><div></div>
   </div>
 </header>
 
 <!-- NAV -->
-<nav id="navMenu" aria-label="Main navigation">
+<nav id="navMenu">
   <a href="#homeSection">Home</a>
   <a href="#productsSection">Products</a>
   <a href="#aboutSection">About</a>
   <a href="#contactSection">Contact</a>
 </nav>
 
-<!-- SEARCH BAR -->
+<!-- SEARCH -->
 <div class="search-bar-container">
-  <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()" />
+  <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
 </div>
 
-<!-- HOME SECTION -->
+<!-- HOME -->
 <section id="homeSection">
   <h1>Welcome to AVR Shop</h1>
 </section>
 
 <!-- PRODUCTS SECTION -->
-<h2 class="section-title" id="productsSection">Our Products</h2>
-<div class="products-container" id="productsContainer">
-  <!-- Product cards will go here -->
-  
-  <!-- PRODUCTS SECTION -->
 <h2 class="section-title" id="productsSection">Our Products</h2>
 <div class="products-container" id="productsContainer">
   <!-- PRODUCT EXAMPLES -->
@@ -99,13 +96,14 @@
     <button onclick="addToCart('Gaming Console',25000)">Add to Cart</button>
     <button onclick="buyNow('Gaming Console',25000)">Buy Now</button>
   </div>
-  
-</div>
 
 <!-- ABOUT -->
 <section id="aboutSection">
   <h2 class="section-title">About Us</h2>
-  <p>AVR Shop is your go-to online store for gadgets and smart devices. Latest tech at best prices!</p>
+  <p class="section-text">
+    AVR Shop is your go-to online store for gadgets and smart devices.
+    Latest tech at best prices!
+  </p>
 </section>
 
 <!-- CONTACT -->
@@ -116,12 +114,14 @@
   <p>Address: Rjy, Seethanagaram, India</p>
 </section>
 
+</div>
+
 <!-- CUSTOMER POPUP -->
 <div id="customerForm">
   <div class="popup-content">
     <h3>Enter your details</h3>
-    <input type="text" id="customerName" placeholder="Your Name" />
-    <input type="text" id="customerNumber" placeholder="Phone Number" />
+    <input type="text" id="customerName" placeholder="Your Name">
+    <input type="text" id="customerNumber" placeholder="Phone Number">
     <div class="popup-buttons">
       <button id="payButton">Pay Now</button>
       <button onclick="closeCustomerForm()">Cancel</button>
@@ -129,17 +129,16 @@
   </div>
 </div>
 
-<!-- CART SIDEBAR -->
+<!-- CART -->
 <div id="cartSidebar">
   <h2>Your Cart</h2>
   <div id="cartItems"></div>
   <p>Total: ₹<span id="cartTotal">0</span></p>
   <button onclick="checkout()">Checkout</button>
 </div>
+
 <button id="cartToggle" onclick="toggleCart()">Cart 🛒</button>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="script.js"></script>
 </body>
@@ -148,5 +147,11 @@
 
 
 
+
+
+
+
+
+  
 
 
