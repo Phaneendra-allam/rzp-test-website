@@ -108,6 +108,20 @@ body {
   right: 0;
 }
 
+#closeCartBtn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  float: right;
+  cursor: pointer;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#closeCartBtn:hover {
+  color: #ff4d4d;
+}
+
 .cart-item {
   display: flex;
   justify-content: space-between;
