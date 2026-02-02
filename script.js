@@ -1,6 +1,5 @@
 // Initialize EmailJS
 emailjs.init("NEhltHkKsFoRI6gWB"); // Your EmailJS Public Key
-
 const keyId = "rzp_test_S9x5QAAxXFGWvK"; // Razorpay test key
 
 let selectedProduct = "";
@@ -10,17 +9,21 @@ let selectedAmount = 0;
 function openCustomerForm(amount, product) {
   selectedAmount = amount;
   selectedProduct = product;
-  document.getElementById("customerForm").style.display = "flex";
+
+  // Make sure popup is visible only when called
+  const form = document.getElementById("customerForm");
+  form.style.display = "flex"; // show popup
 }
 
 // ===== CLOSE CUSTOMER POPUP =====
 function closeCustomerForm() {
-  document.getElementById("customerForm").style.display = "none";
+  const form = document.getElementById("customerForm");
+  form.style.display = "none"; // hide popup
   document.getElementById("customerName").value = "";
   document.getElementById("customerNumber").value = "";
 }
 
-// ===== HANDLE PAY BUTTON =====
+// ===== PAY BUTTON =====
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("payButton").addEventListener("click", () => {
     const customerName = document.getElementById("customerName").value.trim();
@@ -31,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    closeCustomerForm();
+    closeCustomerForm(); // hide popup
     payNow(selectedAmount, selectedProduct, customerName, customerNumber);
   });
 });
@@ -55,7 +58,7 @@ function payNow(amount, productName, customerName, customerNumber) {
         payment_id: response.razorpay_payment_id
       })
       .then(() => {
-        // SHOW THANK YOU MESSAGE
+        // SHOW THANK YOU MESSAGE CENTERED
         const thankYou = document.getElementById("thankYouMessage");
         thankYou.style.display = "flex";
         window.scrollTo({ top: 0, behavior: "smooth" });
